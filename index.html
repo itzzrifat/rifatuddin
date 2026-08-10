@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Your Name — 3D Portfolio</title>
+<meta name="description" content="A playful 3D interactive portfolio — drive around and explore.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚗</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2d2a45;
+    --card:#fffdf7;
+    --coral:#ff6b6b;
+    --blue:#4fc3f7;
+    --purple:#ba68c8;
+    --yellow:#ffd54f;
+    --shadow:0 6px 0 rgba(45,42,69,.16);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;overflow:hidden}
+  body{
+    font-family:'Baloo 2',ui-rounded,'Comic Sans MS',system-ui,-apple-system,sans-serif;
+    background:#aee9ff;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    touch-action:none;
+    user-select:none;
+    -webkit-user-select:none;
+  }
+  #app canvas{display:block}
+  #vignette{position:fixed;inset:0;z-index:10;pointer-events:none;
+    background:radial-gradient(ellipse at center,transparent 62%,rgba(20,30,40,.28) 100%)}
+
+  /* ---------- HUD ---------- */
+  #hud{position:fixed;top:14px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:flex-start;z-index:20;pointer-events:none}
+  #hudLogo{pointer-events:auto;background:var(--card);border:3px solid var(--ink);border-radius:999px;padding:8px 18px;font-weight:800;font-size:17px;box-shadow:var(--shadow)}
+  #hudBtns{display:flex;gap:10px;pointer-events:auto}
+  .hbtn{width:46px;height:46px;border-radius:50%;background:var(--card);border:3px solid var(--ink);box-shadow:var(--shadow);font-size:19px;cursor:pointer;transition:transform .12s ease}
+  .hbtn:hover{transform:translateY(-2px) scale(1.05)}
+  .hbtn:active{transform:translateY(2px)}
+
+  #minimap{position:fixed;top:78px;right:16px;z-index:20;border-radius:50%;border:3px solid rgba(255,255,255,.9);box-shadow:var(--shadow);background:rgba(45,42,69,.55)}
+
+  #hint{
+    position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:20;
+    background:var(--card);border:3px solid var(--ink);border-radius:999px;
+    padding:8px 20px;font-weight:700;font-size:14px;box-shadow:var(--shadow);white-space:nowrap;
+  }
+  kbd{background:#fff;border:2px solid var(--ink);border-radius:8px;padding:1px 7px;margin:0 1px;box-shadow:0 2px 0 var(--ink);font-family:inherit;font-weight:800;font-size:12px;display:inline-block;transform:translateY(-1px)}
+
+  /* ---------- Help ---------- */
+  #help{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:rgba(45,42,69,.4)}
+  #help.hidden{display:none}
+  #helpCard{background:var(--card);border:3px solid var(--ink);border-radius:24px;box-shadow:var(--shadow);padding:26px 30px;width:min(430px,90vw);animation:pop .25s ease}
+  #helpCard h2{margin:0 0 10px;font-size:24px}
+  #helpCard p{margin:8px 0;font-weight:600}
+  #helpCard .row{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:2px dashed #e6e4f5}
+  #helpCard .row:last-child{border-bottom:none}
+
+  /* ---------- Zone panel ---------- */
+  #panel{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center}
+  #panel.hidden{display:none}
+  #panelBackdrop{position:absolute;inset:0;background:rgba(45,42,69,.42)}
+  #panelCard{
+    position:relative;background:var(--card);border:3px solid var(--ink);border-radius:26px;box-shadow:var(--shadow);
+    width:min(620px,92vw);max-height:84vh;overflow:auto;padding:22px 26px 26px;animation:pop .28s cubic-bezier(.2,1.4,.4,1);
+  }
+  #panelHead{display:flex;align-items:center;gap:12px;margin-bottom:12px;position:sticky;top:0}
+  #panelDot{width:16px;height:16px;border-radius:50%;border:2px solid var(--ink);flex:0 0 auto}
+  #panelTitle{margin:0;font-size:28px;flex:1}
+  #panelClose{width:38px;height:38px;border-radius:50%;background:var(--coral);color:#fff;border:3px solid var(--ink);font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 3px 0 rgba(45,42,69,.25)}
+  #panelClose:hover{transform:scale(1.08)}
+  @keyframes pop{from{transform:scale(.75) translateY(24px);opacity:0}}
+
+  .lead{font-size:17px;font-weight:600;line-height:1.55;margin:0 0 14px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+  .chip{background:#fff;border:2px solid var(--ink);border-radius:999px;padding:4px 14px;font-weight:700;font-size:13px;box-shadow:0 3px 0 rgba(45,42,69,.14)}
+
+  .proj{background:#f6f7ff;border:2px solid #e6e4f5;border-radius:18px;padding:14px 18px;margin-bottom:12px}
+  .proj h3{margin:0 0 4px;font-size:19px}
+  .proj p{margin:0 0 10px;font-weight:600;font-size:14px;line-height:1.5;color:#55517a}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .tag{background:#fff;border:2px solid #d9d5f2;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700}
+  .plink{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;font-weight:800;font-size:14px;border:2px solid var(--ink);border-radius:999px;padding:5px 16px;box-shadow:0 3px 0 rgba(45,42,69,.2)}
+  .plink:hover{transform:translateY(-1px)}
+
+  .skill{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .skill span{flex:0 0 118px;font-weight:800;font-size:14px}
+  .bar{flex:1;height:12px;background:#eeeef6;border:2px solid #e0ddf0;border-radius:999px;overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--coral),var(--yellow))}
+
+  .cbtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .cbtn{display:inline-block;text-decoration:none;font-weight:800;font-size:15px;border:3px solid var(--ink);border-radius:999px;padding:9px 20px;box-shadow:0 4px 0 rgba(45,42,69,.2);color:var(--ink);transition:transform .12s ease}
+  .cbtn:hover{transform:translateY(-2px)}
+  .cbtn.mail{background:var(--coral);color:#fff}
+  .cbtn.gh{background:var(--ink);color:#fff}
+  .cbtn.li{background:#5aa9e6;color:#fff}
+  .cbtn.tw{background:#8fd3f4;color:var(--ink)}
+  .cbtn.fb{background:#1877f2;color:#fff}
+  .cbtn.ph{background:#66bb6a;color:#fff}
+
+  /* ---------- Touch controls ---------- */
+  #touch{position:fixed;left:0;right:0;bottom:18px;z-index:25;display:none;justify-content:space-between;padding:0 20px;pointer-events:none}
+  .tcluster{display:flex;gap:12px;pointer-events:auto}
+  .tbtn{width:66px;height:66px;border-radius:50%;background:rgba(255,253,247,.9);border:3px solid var(--ink);box-shadow:var(--shadow);font-size:22px;font-weight:800;color:var(--ink)}
+  .tbtn:active{background:var(--yellow);transform:scale(.94)}
+
+  /* ---------- Intro ---------- */
+  #intro{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(160deg,#ffd166 0%,#ff9e7d 40%,#c58ff0 100%);transition:opacity .55s ease}
+  #intro.hide{opacity:0;pointer-events:none}
+  #introCard{background:var(--card);border:4px solid var(--ink);border-radius:30px;box-shadow:0 10px 0 rgba(45,42,69,.2);
+    padding:34px 40px;text-align:center;width:min(480px,90vw);animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+  #introEmoji{font-size:44px;animation:bounce 1.6s ease infinite}
+  @keyframes bounce{0%,100%{transform:translateX(-14px) rotate(-6deg)}50%{transform:translateX(14px) rotate(6deg)}}
+  #startTitle{margin:8px 0 2px;font-size:38px;line-height:1.1}
+  #startTag{margin:0 0 10px;font-weight:800;font-size:16px;color:#7a76a3}
+  #startDesc{margin:0 0 16px;font-weight:600;font-size:15px;line-height:1.5;color:#55517a}
+  #keyRow{margin-bottom:18px;font-size:13px;font-weight:700}
+  #startBtn{display:inline-block;background:var(--coral);color:#fff;font-weight:800;font-size:17px;border:3px solid var(--ink);
+    border-radius:999px;padding:12px 28px;box-shadow:0 5px 0 rgba(45,42,69,.25);animation:glow 1.8s ease infinite}
+  @keyframes glow{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+
+  @media (max-width:640px){
+    #startTitle{font-size:30px}
+    #hint{display:none}
+    #minimap{width:96px;height:96px}
+    .skill span{flex-basis:92px}
+  }
+</style>
+</head>
+<body>
+  <div id="app"></div>
+  <div id="vignette"></div>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div id="hudLogo">🚗 <span id="hudName">Your Name</span></div>
+    <div id="hudBtns">
+      <button id="btnSound" class="hbtn" title="Sound on/off">🔊</button>
+      <button id="btnHelp" class="hbtn" title="Help">❓</button>
+    </div>
+  </div>
+
+  <canvas id="minimap" width="132" height="132"></canvas>
+
+  <div id="hint">
+    <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> / <kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> drive
+    &nbsp;·&nbsp; <kbd>R</kbd> reset &nbsp;·&nbsp; bump into the <b>BIG WORDS</b> 💥
+  </div>
+
+  <!-- Help -->
+  <div id="help" class="hidden">
+    <div id="helpCard">
+      <h2>How to play 🎮</h2>
+      <div class="row"><span>Drive forward / back</span><span><kbd>W</kbd><kbd>S</kbd> or <kbd>↑</kbd><kbd>↓</kbd></span></div>
+      <div class="row"><span>Steer</span><span><kbd>A</kbd><kbd>D</kbd> or <kbd>←</kbd><kbd>→</kbd></span></div>
+      <div class="row"><span>Reset car</span><span><kbd>R</kbd></span></div>
+      <div class="row"><span>Close a panel</span><span><kbd>Esc</kbd></span></div>
+      <p style="margin-top:14px">Bump into the big 3D words — <b>ABOUT, PROJECTS, SKILLS, CONTACT</b> — to open each section. Knock down trees, letters &amp; bowling pins just for fun! 😄</p>
+      <div style="text-align:center;margin-top:12px"><button class="cbtn mail" id="helpClose" style="cursor:pointer">Got it!</button></div>
+    </div>
+  </div>
+
+  <!-- Zone panel -->
+  <div id="panel" class="hidden">
+    <div id="panelBackdrop"></div>
+    <div id="panelCard">
+      <div id="panelHead">
+        <span id="panelDot"></span>
+        <h2 id="panelTitle"></h2>
+        <button id="panelClose">✕</button>
+      </div>
+      <div id="panelBody"></div>
+    </div>
+  </div>
+
+  <!-- Touch controls -->
+  <div id="touch">
+    <div class="tcluster">
+      <button id="tLeft" class="tbtn">◀</button>
+      <button id="tRight" class="tbtn">▶</button>
+    </div>
+    <div class="tcluster">
+      <button id="tUp" class="tbtn">▲</button>
+      <button id="tDown" class="tbtn">▼</button>
+    </div>
+  </div>
+
+  <!-- Intro -->
+  <div id="intro">
+    <div id="introCard">
+      <div id="introEmoji">🚗💨</div>
+      <h1 id="startTitle">Your Name</h1>
+      <p id="startTag">Creative Developer</p>
+      <p id="startDesc">Welcome! This portfolio is a tiny playable world. Hop in the car, drive around and bump into the big words to explore. 🌍</p>
+      <div id="keyRow">
+        <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or arrow keys to drive
+      </div>
+      <div id="startBtn">Click or press any key to start 🏁</div>
+    </div>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./lib/three.module.js",
+      "three/addons/": "./lib/addons/"
+    }
+  }
+  </script>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
