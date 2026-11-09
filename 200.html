@@ -46,8 +46,11 @@
   <!-- Theme & Favicon -->
   <meta name="theme-color" content="#07080d">
   <meta name="color-scheme" content="dark">
-  <link rel="icon" type="image/png" href="./erp-logo-square.png">
-  <link rel="apple-touch-icon" href="./erp-logo-square.png">
+  <!-- Luxury Executive Monogram Favicon Suite -->
+  <link rel="icon" type="image/x-icon" href="./favicon.ico?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=2">
 
   <!-- Google Fonts: Hind Siliguri (Bengali), Plus Jakarta Sans & Outfit (English), Fira Code (Mono) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -237,6 +240,37 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       display: inline-block;
+    }
+
+    
+    /* Audio Control Pill Button */
+    .nav-sound-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(230, 202, 133, 0.08);
+      border: 1px solid var(--border-gold);
+      color: var(--accent-gold-light);
+      padding: 7px 14px;
+      border-radius: 9999px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      backdrop-filter: blur(8px);
+      margin-right: 4px;
+    }
+
+    .nav-sound-btn:hover {
+      background: rgba(230, 202, 133, 0.18);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(230, 202, 133, 0.25);
+    }
+
+    .nav-sound-btn.muted {
+      opacity: 0.6;
+      border-color: var(--border-subtle);
+      color: var(--text-muted);
     }
 
     /* Luxury Frosted Navigation Bar */
@@ -1601,6 +1635,12 @@
   </style>
 </head>
 <body>
+  <!-- Executive Opening Sound Effect -->
+  <audio id="openingAudio" preload="auto">
+    <source src="./executive-opening.mp3" type="audio/mpeg">
+    <source src="./executive-opening.wav" type="audio/wav">
+  </audio>
+
 
   <!-- Cinematic Executive Intro Preloader -->
   <div id="introLoader">
@@ -1650,6 +1690,10 @@
         <li><a href="#contact" class="nav-link">যোগাযোগ</a></li>
       </ul>
 
+      <button id="soundToggleBtn" class="nav-sound-btn" title="Toggle Executive Opening Audio" aria-label="Toggle Sound">
+        <span id="soundIcon">🔊</span>
+        <span class="font-en sound-label">Audio</span>
+      </button>
       <a href="https://wa.me/8801625914562" target="_blank" rel="noopener" class="nav-cta-btn font-en">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-.996-.062-.259-.082-.596-.192-1.018-.375-1.789-.778-2.956-2.582-3.046-2.699-.088-.119-.727-.968-.727-1.848 0-.879.461-1.312.625-1.491.164-.18.358-.224.477-.224.121 0 .24.001.346.006.11.005.257-.042.403.308.148.354.507 1.238.552 1.328.045.089.075.194.015.313-.06.12-.089.194-.179.299-.089.104-.189.233-.27.313-.089.089-.182.186-.078.365.104.179.463.766.994 1.239.684.609 1.26.799 1.439.888.179.089.284.075.389-.045.105-.119.448-.522.567-.701.12-.179.239-.149.403-.089.164.06 1.045.493 1.224.582.179.09.299.134.343.209.045.075.045.433-.099.838z"/></svg>
         WhatsApp আলাপ
@@ -2185,8 +2229,53 @@
        ============================================================== -->
   <script>
     
-    // 0. Cinematic Intro Animation Engine & Scroll Reveal
+    // 0. Cinematic Intro Animation Engine & Executive Sound Engine
     (function initIntroAnimation() {
+      const audio = document.getElementById('openingAudio');
+      const soundBtn = document.getElementById('soundToggleBtn');
+      const soundIcon = document.getElementById('soundIcon');
+      let isMuted = false;
+      let soundHasTriggered = false;
+
+      function playOpeningSound() {
+        if (!audio || isMuted || soundHasTriggered) return;
+        soundHasTriggered = true;
+        audio.volume = 0.85;
+        const p = audio.play();
+        if (p !== undefined) {
+          p.catch(e => {
+            console.log('Autoplay restricted by browser, waiting for gesture:', e);
+            soundHasTriggered = false;
+            const unlock = () => {
+              if (soundHasTriggered || isMuted) return;
+              soundHasTriggered = true;
+              audio.play().catch(() => {});
+              window.removeEventListener('pointerdown', unlock);
+              window.removeEventListener('keydown', unlock);
+            };
+            window.addEventListener('pointerdown', unlock, { once: true });
+            window.addEventListener('keydown', unlock, { once: true });
+          });
+        }
+      }
+
+      if (soundBtn) {
+        soundBtn.addEventListener('click', () => {
+          if (!audio) return;
+          if (audio.paused) {
+            audio.currentTime = 0;
+            audio.play();
+            isMuted = false;
+            soundBtn.classList.remove('muted');
+            if (soundIcon) soundIcon.textContent = '🔊';
+          } else {
+            audio.pause();
+            isMuted = true;
+            soundBtn.classList.add('muted');
+            if (soundIcon) soundIcon.textContent = '🔇';
+          }
+        });
+      }
       const loader = document.getElementById('introLoader');
       const progressBar = document.getElementById('loaderProgressBar');
       const counterEl = document.getElementById('loaderCounter');
@@ -2215,6 +2304,7 @@
         if (progress > 75 && statusIndex === 1) {
           statusIndex = 2;
           if (statusText) statusText.textContent = statuses[2];
+          playOpeningSound();
         }
 
         if (progress >= 100) {
@@ -2237,6 +2327,7 @@
 
       // Click/tap anywhere on loader to skip instantly
       loader.addEventListener('click', () => {
+        playOpeningSound();
         clearInterval(interval);
         loader.classList.add('loaded');
         document.body.classList.remove('is-loading');
