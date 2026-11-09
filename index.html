@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="bn" prefix="og: https://ogp.me/ns#">
 <head>
+  <!-- Force HTTPS and Upgrade Insecure Requests -->
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <script>
+    if (location.protocol === 'http:' && (location.hostname === 'rifatuddin.ami.bd' || location.hostname.endsWith('.ami.bd'))) {
+      location.replace('https://' + location.hostname + location.pathname + location.search + location.hash);
+    }
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -1349,9 +1357,274 @@
       .contact-actions-row { flex-direction: column; width: 100%; }
       .contact-btn { width: 100%; justify-content: center; }
     }
+  
+    /* ==============================================================
+       CINEMATIC INTRO PRELOADER & ENTRANCE ANIMATIONS
+       ============================================================== */
+    #introLoader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 999999;
+      background: radial-gradient(circle at 50% 45%, #0f131f 0%, #06070a 70%, #020305 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.85s;
+      overflow: hidden;
+    }
+
+    #introLoader.loaded {
+      opacity: 0;
+      transform: scale(1.06);
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-glow-orb {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(230, 202, 133, 0.16) 0%, rgba(56, 189, 248, 0.08) 50%, transparent 70%);
+      filter: blur(40px);
+      pointer-events: none;
+      animation: orbPulse 3s infinite alternate ease-in-out;
+    }
+
+    @keyframes orbPulse {
+      0% { transform: scale(0.85); opacity: 0.6; }
+      100% { transform: scale(1.15); opacity: 1; }
+    }
+
+    .loader-ring-wrapper {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .loader-ring-outer {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px dashed rgba(230, 202, 133, 0.4);
+      animation: spinClockwise 8s linear infinite;
+    }
+
+    .loader-ring-inner {
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      border-top-color: var(--accent-gold);
+      border-right-color: var(--accent-cyan);
+      animation: spinCounter 2.5s linear infinite;
+    }
+
+    @keyframes spinClockwise {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes spinCounter {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+
+    .loader-logo-center {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      border: 1.5px solid var(--accent-gold);
+      box-shadow: 0 0 25px rgba(230, 202, 133, 0.4);
+      object-fit: cover;
+      background: #000;
+      animation: logoPulse 2s infinite alternate ease-in-out;
+    }
+
+    @keyframes logoPulse {
+      0% { transform: scale(0.96); filter: drop-shadow(0 0 8px rgba(230,202,133,0.3)); }
+      100% { transform: scale(1.04); filter: drop-shadow(0 0 18px rgba(230,202,133,0.7)); }
+    }
+
+    .loader-brand-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, #ffffff 0%, var(--accent-gold-light) 50%, var(--accent-gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .loader-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      margin-bottom: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .loader-progress-container {
+      width: 240px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 9999px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .loader-progress-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #38bdf8 0%, #e6ca85 50%, #f5e4b8 100%);
+      box-shadow: 0 0 12px rgba(230, 202, 133, 0.8);
+      border-radius: 9999px;
+      transition: width 0.12s ease-out;
+    }
+
+    .loader-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 240px;
+      font-size: 0.75rem;
+      color: var(--text-subtle);
+    }
+
+    .loader-counter {
+      color: var(--accent-gold-light);
+      font-weight: 700;
+    }
+
+    /* Page Entrance Reveals */
+    body.is-loading {
+      overflow: hidden !important;
+    }
+
+    /* Staggered Hero Elements */
+    header,
+    .hero-content,
+    .portrait-col {
+      opacity: 0;
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    header {
+      transform: translateY(-30px);
+    }
+
+    .hero-content {
+      transform: translateY(35px);
+    }
+
+    .portrait-col {
+      transform: translateX(40px);
+    }
+
+    body.page-revealed header {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: 0.15s;
+    }
+
+    body.page-revealed .hero-content {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: 0.3s;
+    }
+
+    body.page-revealed .portrait-col {
+      opacity: 1;
+      transform: translateX(0);
+      transition-delay: 0.45s;
+    }
+
+    /* Scroll Reveal System */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal-on-scroll.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Light Sweep Effect on Dubai Portrait Frame */
+    .portrait-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent 40%,
+        rgba(230, 202, 133, 0.18) 50%,
+        transparent 60%
+      );
+      transform: rotate(25deg) translateY(-100%);
+      transition: transform 1.4s ease;
+      pointer-events: none;
+    }
+
+    body.page-revealed .portrait-card::after {
+      transform: rotate(25deg) translateY(100%);
+    }
+
+    .portrait-card:hover::after {
+      transform: rotate(25deg) translateY(-100%);
+      transition: 0s;
+    }
+
   </style>
 </head>
 <body>
+
+  <!-- Cinematic Executive Intro Preloader -->
+  <div id="introLoader">
+    <div class="loader-glow-orb"></div>
+    
+    <div class="loader-ring-wrapper">
+      <div class="loader-ring-outer"></div>
+      <div class="loader-ring-inner"></div>
+      <img src="./sk-tech-solutions-logo.png" alt="Sohoz Karbar Logo" class="loader-logo-center">
+    </div>
+
+    <div class="loader-brand-title font-en">Rifat Uddin</div>
+    <div class="loader-subtitle font-bn" id="loaderStatusText">ব্যবসা ও প্রযুক্তির আধুনিক দিগন্ত...</div>
+
+    <div class="loader-progress-container">
+      <div class="loader-progress-bar" id="loaderProgressBar"></div>
+    </div>
+
+    <div class="loader-meta-row font-mono">
+      <span>INITIALIZING</span>
+      <span class="loader-counter" id="loaderCounter">0%</span>
+    </div>
+  </div>
+
 
   <!-- WebGL 3D Canvas -->
   <div id="webgl-canvas-container"></div>
@@ -1496,7 +1769,7 @@
     <!-- ==============================================================
          ORGANISATIONAL LEADERSHIP & OFFICIAL BRAND LOGOS (লোগো টোগো দিয়ে)
          ============================================================== -->
-    <section class="brands-section" id="brands">
+    <section class="brands-section reveal-on-scroll" id="brands">
       <div class="container">
         <div class="section-header-centered">
           <span class="section-pill-tag font-en">Corporate Entities & Brands</span>
@@ -1622,7 +1895,7 @@
     </section>
 
     <!-- Metrics Bar -->
-    <section class="metrics-section">
+    <section class="metrics-section reveal-on-scroll">
       <div class="container">
         <div class="metrics-grid font-en">
           <div class="metric-tile">
@@ -1650,7 +1923,7 @@
     </section>
 
     <!-- SohozKarbar ERP 3D Stage -->
-    <section class="erp-stage-section" id="erp">
+    <section class="erp-stage-section reveal-on-scroll" id="erp">
       <div class="container">
         <div class="section-header-centered">
           <span class="section-pill-tag font-en">Flagship ERP Suite</span>
@@ -1735,7 +2008,7 @@
     </section>
 
     <!-- Career Milestones Timeline -->
-    <section class="timeline-section" id="career">
+    <section class="timeline-section reveal-on-scroll" id="career">
       <div class="container">
         <div class="section-header-centered">
           <span class="section-pill-tag font-en">Career Milestones</span>
@@ -1800,7 +2073,7 @@
     </section>
 
     <!-- Executive Gallery -->
-    <section class="gallery-section" id="gallery">
+    <section class="gallery-section reveal-on-scroll" id="gallery">
       <div class="container">
         <div class="section-header-centered">
           <span class="section-pill-tag font-en">Visual Moments</span>
@@ -1847,7 +2120,7 @@
     </section>
 
     <!-- Executive Philosophy Quote -->
-    <section class="quote-section">
+    <section class="quote-section reveal-on-scroll">
       <div class="container">
         <div class="quote-box">
           <p class="quote-text font-bn">
@@ -1859,7 +2132,7 @@
     </section>
 
     <!-- Direct Contact Section -->
-    <section class="contact-section" id="contact">
+    <section class="contact-section reveal-on-scroll" id="contact">
       <div class="container">
         <div class="contact-card-box">
           <span class="section-pill-tag font-en">Direct Connect</span>
@@ -1911,6 +2184,89 @@
        SCRIPTS: Three.js 3D WebGL PBR Engine & Interactive Handlers
        ============================================================== -->
   <script>
+    
+    // 0. Cinematic Intro Animation Engine & Scroll Reveal
+    (function initIntroAnimation() {
+      const loader = document.getElementById('introLoader');
+      const progressBar = document.getElementById('loaderProgressBar');
+      const counterEl = document.getElementById('loaderCounter');
+      const statusText = document.getElementById('loaderStatusText');
+      if (!loader) return;
+
+      document.body.classList.add('is-loading');
+
+      const statuses = [
+        'ব্যবসা ও প্রযুক্তির আধুনিক দিগন্ত...',
+        'অফিসিয়াল আর্কিটেকচার ও ৩ডি ইঞ্জিন রেন্ডার হচ্ছে...',
+        'সহজ কারবার ইকোসিস্টেমে স্বাগতম...'
+      ];
+
+      let progress = 0;
+      let statusIndex = 0;
+
+      const interval = setInterval(() => {
+        const inc = Math.floor(Math.random() * 12) + 8;
+        progress += inc;
+
+        if (progress > 35 && statusIndex === 0) {
+          statusIndex = 1;
+          if (statusText) statusText.textContent = statuses[1];
+        }
+        if (progress > 75 && statusIndex === 1) {
+          statusIndex = 2;
+          if (statusText) statusText.textContent = statuses[2];
+        }
+
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          if (progressBar) progressBar.style.width = '100%';
+          if (counterEl) counterEl.textContent = '100%';
+
+          setTimeout(() => {
+            loader.classList.add('loaded');
+            document.body.classList.remove('is-loading');
+            document.body.classList.add('page-revealed');
+            initScrollReveals();
+          }, 350);
+        } else {
+          if (progressBar) progressBar.style.width = progress + '%';
+          if (counterEl) counterEl.textContent = progress + '%';
+        }
+      }, 65);
+
+      // Click/tap anywhere on loader to skip instantly
+      loader.addEventListener('click', () => {
+        clearInterval(interval);
+        loader.classList.add('loaded');
+        document.body.classList.remove('is-loading');
+        document.body.classList.add('page-revealed');
+        initScrollReveals();
+      });
+
+      function initScrollReveals() {
+        const revealElements = document.querySelectorAll('.reveal-on-scroll');
+        if (!('IntersectionObserver' in window)) {
+          revealElements.forEach(el => el.classList.add('is-revealed'));
+          return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.12,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        revealElements.forEach(el => observer.observe(el));
+      }
+    })();
+
     // 1. Three.js PBR WebGL Interactive Sculpture
     (function init3DExperience() {
       const container = document.getElementById('webgl-canvas-container');
@@ -1999,6 +2355,7 @@
       });
 
       // Resize
+      window.__threeBoost = 1.0;
       window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
@@ -2012,14 +2369,20 @@
         targetX += (mouseX - targetX) * 0.05;
         targetY += (mouseY - targetY) * 0.05;
 
-        torus1.rotation.x += 0.003;
-        torus1.rotation.y += 0.005;
+        let boost = 0;
+        if (document.body.classList.contains('page-revealed') && window.__threeBoost > 0) {
+          boost = window.__threeBoost;
+          window.__threeBoost -= 0.015;
+        }
 
-        torus2.rotation.y -= 0.004;
-        torus2.rotation.z += 0.003;
+        torus1.rotation.x += 0.003 + (boost * 0.03);
+        torus1.rotation.y += 0.005 + (boost * 0.04);
 
-        core.rotation.x += 0.006;
-        core.rotation.y += 0.008;
+        torus2.rotation.y -= 0.004 + (boost * 0.02);
+        torus2.rotation.z += 0.003 + (boost * 0.03);
+
+        core.rotation.x += 0.006 + (boost * 0.03);
+        core.rotation.y += 0.008 + (boost * 0.05);
 
         particles.rotation.y += 0.0008;
 
