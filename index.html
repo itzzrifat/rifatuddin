@@ -106,7 +106,8 @@
         "sameAs": [
           "https://www.facebook.com/itzzrifat",
           "https://www.sohozkarbar.pro.bd/rifat-uddin.html",
-          "https://github.com/itzzrifat"
+          "https://github.com/itzzrifat",
+          "https://scholar.google.com/citations?user=LU2SVIEAAAAJ"
         ]
       },
       {
@@ -1456,7 +1457,110 @@
       color: #fff;
       box-shadow: 0 10px 25px rgba(24, 119, 242, 0.3);
     }
-    .btn-facebook:hover {
+    
+    .btn-scholar {
+      background: linear-gradient(135deg, #4285f4, #1a73e8);
+      color: #fff;
+      box-shadow: 0 10px 25px rgba(66, 133, 244, 0.3);
+    }
+    .btn-scholar:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(66, 133, 244, 0.45);
+    }
+
+    /* Research & Whitepaper Section */
+    .research-section {
+      padding: 70px 0;
+    }
+    .research-card-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 20px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+    .research-card-box::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(230, 202, 133, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .research-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .scholar-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(66, 133, 244, 0.12);
+      border: 1px solid rgba(66, 133, 244, 0.35);
+      border-radius: 100px;
+      color: #70aaff;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .scholar-badge-pill:hover {
+      background: rgba(66, 133, 244, 0.22);
+      border-color: #4285f4;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    .whitepaper-feature-card {
+      background: rgba(11, 13, 20, 0.85);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 28px;
+      transition: border-color 0.3s ease;
+    }
+    .whitepaper-feature-card:hover {
+      border-color: rgba(230, 202, 133, 0.4);
+    }
+    .whitepaper-type-tag {
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+      color: var(--accent-gold);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .whitepaper-title {
+      font-size: 1.25rem;
+      color: #fff;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+    .whitepaper-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+    .whitepaper-summary {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+    .whitepaper-actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+.btn-facebook:hover {
       transform: translateY(-3px);
       box-shadow: 0 15px 35px rgba(24, 119, 242, 0.45);
     }
@@ -1900,6 +2004,10 @@
                 সরাসরি WhatsApp-এ আলাপ
               </a>
 
+              <a href="https://scholar.google.com/citations?user=LU2SVIEAAAAJ" target="_blank" rel="noopener" class="btn-glass-secondary font-en" title="Google Scholar Profile">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
+                Google Scholar ↗
+              </a>
               <a href="#erp" class="btn-glass-secondary font-en">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
                 SohozKarbar ERP দেখুন
@@ -2181,6 +2289,50 @@
             <!-- Preview Screenshot Box -->
             <div class="erp-preview-col">
               <img src="./demo-pos-app.jpg" alt="SohozKarbar ERP Live Module Screenshot" class="erp-screen-img" id="tabScreenImg">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Academic Research & Technical Whitepaper Showcase -->
+    <section class="research-section reveal-on-scroll" id="research">
+      <div class="container">
+        <div class="research-card-box">
+          <div class="research-header-row">
+            <div>
+              <span class="section-pill-tag font-en">Academic Research &amp; Whitepaper</span>
+              <h2 class="section-main-title">
+                সফটওয়্যার আর্কিটেকচার ও <span class="gold-text-gradient">গবেষণাপত্র</span>
+              </h2>
+            </div>
+            <a href="https://scholar.google.com/citations?user=LU2SVIEAAAAJ" target="_blank" rel="noopener" class="scholar-badge-pill font-en">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
+              <span>Google Scholar Profile</span>
+            </a>
+          </div>
+
+          <div class="whitepaper-feature-card">
+            <div class="whitepaper-type-tag font-en">TECHNICAL WHITEPAPER &amp; ARCHITECTURAL CASE STUDY &bull; NOVEMBER 2026</div>
+            <h3 class="whitepaper-title font-en">
+              SohozKarbar: A Scalable Cloud-Native ERP and Real-Time Financial Ledger Synchronization Framework for Emerging Market SMEs
+            </h3>
+            <p class="whitepaper-meta font-en">
+              <strong>Author:</strong> Rifat Uddin &bull; <strong>Affiliation:</strong> Sohoz Karbar Tech Solutions &bull; <strong>Indexing:</strong> Google Scholar (ID: LU2SVIEAAAAJ)
+            </p>
+            <p class="whitepaper-summary">
+              উন্নয়নশীল দেশের ক্ষুদ্র ও মাঝারি বাণিজ্যের জন্য তৈরি SohozKarbar ERP-এর সিস্টেম আর্কিটেকচার, ডাবল-এন্ট্রি লেজার সিঙ্ক্রোনাইজেশন অ্যালগরিদম এবং বাস্তব পারফরম্যান্স মেট্রিক্স বিশ্লেষণ নিয়ে রিফাত উদ্দিনের প্রাতিষ্ঠানিক টেকনিক্যাল গবেষণাপত্র।
+            </p>
+
+            <div class="whitepaper-actions-row">
+              <a href="./sohozkarbar-whitepaper.html" target="_blank" class="btn-gold-primary font-en">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                Read Whitepaper
+              </a>
+              <a href="https://scholar.google.com/citations?user=LU2SVIEAAAAJ" target="_blank" rel="noopener" class="btn-glass-secondary font-en">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
+                View Citations on Google Scholar ↗
+              </a>
             </div>
           </div>
         </div>
