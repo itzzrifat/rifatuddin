@@ -250,146 +250,7 @@
     }
 
     
-    /* Audio Control Pill Button */
-    .nav-sound-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(230, 202, 133, 0.08);
-      border: 1px solid var(--border-gold);
-      color: var(--accent-gold-light);
-      padding: 7px 14px;
-      border-radius: 9999px;
-      cursor: pointer;
-      font-size: 0.82rem;
-      font-weight: 600;
-      transition: all 0.25s ease;
-      backdrop-filter: blur(8px);
-      margin-right: 4px;
-    }
 
-    .nav-sound-btn:hover {
-      background: rgba(230, 202, 133, 0.18);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(230, 202, 133, 0.25);
-    }
-
-    .nav-sound-btn.muted {
-      opacity: 0.6;
-      border-color: var(--border-subtle);
-      color: var(--text-muted);
-    }
-
-    
-    /* Interactive Enter Button & Audio Controls */
-    .loader-action-box {
-      margin-top: 18px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-    }
-
-    .loader-enter-btn {
-      background: linear-gradient(135deg, #f5e4b8 0%, #e6ca85 50%, #b89343 100%);
-      color: #08090d;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 9999px;
-      font-size: 1.05rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 0 30px rgba(230, 202, 133, 0.45);
-      transition: all 0.3s ease;
-      animation: enterBtnGlow 2.5s infinite alternate ease-in-out;
-    }
-
-    .loader-enter-btn:hover {
-      transform: scale(1.06);
-      box-shadow: 0 0 45px rgba(230, 202, 133, 0.75);
-    }
-
-    @keyframes enterBtnGlow {
-      0% { transform: scale(0.98); box-shadow: 0 0 20px rgba(230, 202, 133, 0.35); }
-      100% { transform: scale(1.03); box-shadow: 0 0 40px rgba(230, 202, 133, 0.65); }
-    }
-
-    .loader-tap-hint {
-      font-size: 0.72rem;
-      color: rgba(255, 255, 255, 0.4);
-      letter-spacing: 0.12em;
-    }
-
-    /* Sound Visualizer Bars in Header Button */
-    .sound-bars-wrap {
-      display: inline-flex;
-      align-items: flex-end;
-      gap: 2px;
-      height: 12px;
-      margin-right: 2px;
-    }
-
-    .sound-bar {
-      width: 2.5px;
-      background: var(--accent-gold-light);
-      border-radius: 1px;
-      animation: soundBarBounce 1.2s infinite ease-in-out;
-    }
-
-    .sound-bar:nth-child(1) { height: 40%; animation-delay: 0.1s; }
-    .sound-bar:nth-child(2) { height: 90%; animation-delay: 0.3s; }
-    .sound-bar:nth-child(3) { height: 60%; animation-delay: 0.2s; }
-
-    @keyframes soundBarBounce {
-      0%, 100% { transform: scaleY(0.4); }
-      50% { transform: scaleY(1.0); }
-    }
-
-    .nav-sound-btn.muted .sound-bars-wrap {
-      opacity: 0.3;
-    }
-    .nav-sound-btn.muted .sound-bar {
-      animation: none !important;
-      height: 25% !important;
-    }
-
-    /* Floating Toast Pill */
-    .audio-unmute-toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 9999;
-      background: rgba(14, 17, 26, 0.92);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--accent-gold);
-      color: #fff;
-      padding: 10px 18px;
-      border-radius: 9999px;
-      display: none;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(230, 202, 133, 0.25);
-      cursor: pointer;
-      animation: toastFloat 3s infinite ease-in-out;
-      transition: all 0.3s ease;
-    }
-
-    .audio-unmute-toast:hover {
-      transform: translateY(-3px) scale(1.02);
-      border-color: #fff;
-    }
-
-    @keyframes toastFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
-    }
 
     /* Luxury Frosted Navigation Bar */
     header {
@@ -1856,11 +1717,7 @@
   </style>
 </head>
 <body>
-  <!-- Executive Spatial Soundtrack & Ambient Music Engine -->
-  <audio id="openingAudio" loop preload="auto">
-    <source src="./executive-soundtrack.mp3" type="audio/mpeg">
-    <source src="./executive-soundtrack.wav" type="audio/wav">
-  </audio>
+
 
 
   <!-- Cinematic Executive Intro Preloader -->
@@ -1885,20 +1742,7 @@
       <span class="loader-counter" id="loaderCounter">0%</span>
     </div>
 
-    <!-- Interactive Enter Button (Guarantees Audio Playback) -->
-    <div class="loader-action-box" id="loaderActionBox">
-      <button id="enterPortalBtn" class="loader-enter-btn font-bn" aria-label="Enter with Music">
-        <span class="btn-sound-pulse">🎵</span>
-        <span>মিউজিক সহ প্রবেশ করুন ✦</span>
-      </button>
-      <div class="loader-tap-hint font-mono">CLICK ANYWHERE TO ENTER WITH MUSIC</div>
-    </div>
-  </div>
-
-  <!-- Floating Audio Toast Pill (Fallback for Muted Autoplay) -->
-  <div id="audioUnmuteToast" class="audio-unmute-toast font-bn">
-    <span class="toast-note-icon">🎵</span>
-    <span>মিউজিক শুনতে এখানে ক্লিক করুন 🔊</span>
+    <div class="loader-tap-hint font-mono" style="margin-top: 18px; font-size: 0.72rem; color: rgba(255, 255, 255, 0.4); letter-spacing: 0.12em; cursor: pointer;">CLICK ANYWHERE TO SKIP INTRO</div>
   </div>
 
 
@@ -1926,14 +1770,7 @@
         <li><a href="#contact" class="nav-link">যোগাযোগ</a></li>
       </ul>
 
-      <button id="soundToggleBtn" class="nav-sound-btn" title="Toggle Executive Music" aria-label="Toggle Music">
-        <span class="sound-bars-wrap">
-          <span class="sound-bar"></span>
-          <span class="sound-bar"></span>
-          <span class="sound-bar"></span>
-        </span>
-        <span id="soundLabel" class="font-en sound-label">Music: ON</span>
-      </button>
+
       <a href="https://wa.me/8801625914562" target="_blank" rel="noopener" class="nav-cta-btn font-en">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-.996-.062-.259-.082-.596-.192-1.018-.375-1.789-.778-2.956-2.582-3.046-2.699-.088-.119-.727-.968-.727-1.848 0-.879.461-1.312.625-1.491.164-.18.358-.224.477-.224.121 0 .24.001.346.006.11.005.257-.042.403.308.148.354.507 1.238.552 1.328.045.089.075.194.015.313-.06.12-.089.194-.179.299-.089.104-.189.233-.27.313-.089.089-.182.186-.078.365.104.179.463.766.994 1.239.684.609 1.26.799 1.439.888.179.089.284.075.389-.045.105-.119.448-.522.567-.701.12-.179.239-.149.403-.089.164.06 1.045.493 1.224.582.179.09.299.134.343.209.045.075.045.433-.099.838z"/></svg>
         WhatsApp আলাপ
@@ -2517,76 +2354,8 @@
        ============================================================== -->
   <script>
     
-    // 0. Cinematic Intro Animation Engine & Guaranteed Music Engine
+    // 0. Cinematic Intro Animation Engine (Silent & Smooth)
     (function initIntroAnimation() {
-      const audio = document.getElementById('openingAudio');
-      const soundBtn = document.getElementById('soundToggleBtn');
-      const soundLabel = document.getElementById('soundLabel');
-      const enterBtn = document.getElementById('enterPortalBtn');
-      const audioToast = document.getElementById('audioUnmuteToast');
-      let isMuted = false;
-      let musicStarted = false;
-
-      function startMusic() {
-        if (!audio || isMuted || musicStarted) return;
-        audio.volume = 0.50; // comfortable, luxury ambient volume
-        const promise = audio.play();
-        if (promise !== undefined) {
-          promise.then(() => {
-            musicStarted = true;
-            if (audioToast) audioToast.style.display = 'none';
-            if (soundBtn) soundBtn.classList.remove('muted');
-            if (soundLabel) soundLabel.textContent = 'Music: ON';
-          }).catch(err => {
-            console.log('Autoplay deferred by browser policy:', err);
-            // Show toast prompt
-            if (audioToast) audioToast.style.display = 'inline-flex';
-          });
-        }
-      }
-
-      // Universal click/touch handler to guarantee music start on any user gesture
-      function onFirstUserGesture() {
-        if (!musicStarted && !isMuted) {
-          startMusic();
-        }
-        window.removeEventListener('click', onFirstUserGesture);
-        window.removeEventListener('touchstart', onFirstUserGesture);
-        window.removeEventListener('keydown', onFirstUserGesture);
-      }
-      window.addEventListener('click', onFirstUserGesture, { capture: true, passive: true });
-      window.addEventListener('touchstart', onFirstUserGesture, { capture: true, passive: true });
-      window.addEventListener('keydown', onFirstUserGesture, { capture: true, passive: true });
-
-      // Audio Toast click
-      if (audioToast) {
-        audioToast.addEventListener('click', () => {
-          startMusic();
-          audioToast.style.display = 'none';
-        });
-      }
-
-      // Sound Toggle Button in Header
-      if (soundBtn) {
-        soundBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          if (!audio) return;
-          if (audio.paused) {
-            audio.play().then(() => {
-              isMuted = false;
-              musicStarted = true;
-              soundBtn.classList.remove('muted');
-              if (soundLabel) soundLabel.textContent = 'Music: ON';
-              if (audioToast) audioToast.style.display = 'none';
-            }).catch(() => {});
-          } else {
-            audio.pause();
-            isMuted = true;
-            soundBtn.classList.add('muted');
-            if (soundLabel) soundLabel.textContent = 'Music: OFF';
-          }
-        });
-      }
       const loader = document.getElementById('introLoader');
       const progressBar = document.getElementById('loaderProgressBar');
       const counterEl = document.getElementById('loaderCounter');
@@ -2604,6 +2373,14 @@
       let progress = 0;
       let statusIndex = 0;
 
+      function revealPage() {
+        if (loader.classList.contains('loaded')) return;
+        loader.classList.add('loaded');
+        document.body.classList.remove('is-loading');
+        document.body.classList.add('page-revealed');
+        initScrollReveals();
+      }
+
       const interval = setInterval(() => {
         const inc = Math.floor(Math.random() * 12) + 8;
         progress += inc;
@@ -2615,7 +2392,6 @@
         if (progress > 75 && statusIndex === 1) {
           statusIndex = 2;
           if (statusText) statusText.textContent = statuses[2];
-          playOpeningSound();
         }
 
         if (progress >= 100) {
@@ -2626,42 +2402,14 @@
 
           setTimeout(() => {
             revealPage();
-          }, 350);
+          }, 300);
         } else {
           if (progressBar) progressBar.style.width = progress + '%';
           if (counterEl) counterEl.textContent = progress + '%';
         }
-      }, 65);
+      }, 50);
 
-      // Click/tap anywhere on loader to skip instantly
-      loader.addEventListener('click', () => {
-        playOpeningSound();
-        clearInterval(interval);
-        loader.classList.add('loaded');
-        document.body.classList.remove('is-loading');
-        document.body.classList.add('page-revealed');
-        initScrollReveals();
-      });
-
-      function revealPage() {
-        if (loader.classList.contains('loaded')) return;
-        startMusic();
-        loader.classList.add('loaded');
-        document.body.classList.remove('is-loading');
-        document.body.classList.add('page-revealed');
-        initScrollReveals();
-      }
-
-      // Enter Portal Button click (Direct User Interaction -> 100% Audio Playback Success)
-      if (enterBtn) {
-        enterBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          clearInterval(interval);
-          revealPage();
-        });
-      }
-
-      // Click anywhere on preloader screen
+      // Click or tap anywhere on preloader screen to skip instantly
       loader.addEventListener('click', () => {
         clearInterval(interval);
         revealPage();
