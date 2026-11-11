@@ -1811,6 +1811,359 @@
       transition: 0s;
     }
 
+  
+    /* ==============================================================
+       CMS DYNAMIC SECTIONS & EXECUTIVE ADMIN PORTAL STYLING
+       ============================================================== */
+    .nav-admin-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(230, 202, 133, 0.08);
+      border: 1px solid rgba(230, 202, 133, 0.35);
+      color: var(--accent-gold);
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-admin-btn:hover {
+      background: rgba(230, 202, 133, 0.22);
+      border-color: var(--accent-gold);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(230, 202, 133, 0.28);
+      color: #fff;
+    }
+    .nav-admin-btn .admin-lock-icon {
+      font-size: 0.85rem;
+    }
+
+    .cms-dynamic-section {
+      padding: 70px 0 90px;
+      position: relative;
+    }
+    .cms-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 26px;
+    }
+
+    /* Projects Card */
+    .cms-project-card {
+      background: rgba(14, 17, 26, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 30px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .cms-project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(230, 202, 133, 0.5), transparent);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    .cms-project-card:hover {
+      border-color: rgba(230, 202, 133, 0.38);
+      transform: translateY(-5px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 25px rgba(230, 202, 133, 0.12);
+    }
+    .cms-project-card:hover::before {
+      opacity: 1;
+    }
+    .cms-card-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .cms-category-pill {
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      background: rgba(230, 202, 133, 0.1);
+      border: 1px solid rgba(230, 202, 133, 0.25);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .cms-entity-badge {
+      font-size: 0.74rem;
+      color: rgba(255, 255, 255, 0.55);
+    }
+    .cms-card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+    .cms-card-desc {
+      font-size: 0.94rem;
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.65;
+      margin-bottom: 22px;
+      flex-grow: 1;
+    }
+    .cms-tech-stack-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+    .cms-tech-pill {
+      font-size: 0.74rem;
+      color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+    .cms-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      background: rgba(230, 202, 133, 0.12);
+      border: 1px solid rgba(230, 202, 133, 0.3);
+      color: var(--accent-gold);
+      transition: all 0.25s ease;
+      width: fit-content;
+      cursor: pointer;
+    }
+    .cms-action-btn:hover {
+      background: var(--accent-gold);
+      color: #06070a;
+      transform: translateX(3px);
+      box-shadow: 0 4px 14px rgba(230, 202, 133, 0.3);
+    }
+
+    /* Post Cards */
+    .cms-post-card {
+      background: rgba(14, 17, 26, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 28px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .cms-post-card:hover {
+      border-color: rgba(230, 202, 133, 0.38);
+      transform: translateY(-5px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 25px rgba(230, 202, 133, 0.12);
+    }
+    .cms-post-badge {
+      font-size: 0.72rem;
+      color: #6ee7b7;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .cms-post-date-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.45);
+      margin-top: 10px;
+      margin-bottom: 14px;
+    }
+    .cms-read-time {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Clients / Testimonial Cards */
+    .cms-client-card {
+      background: rgba(14, 17, 26, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 28px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.35s ease;
+    }
+    .cms-client-card:hover {
+      border-color: rgba(230, 202, 133, 0.38);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.45);
+    }
+    .cms-quote-mark {
+      font-size: 2.4rem;
+      line-height: 1;
+      color: var(--accent-gold);
+      opacity: 0.4;
+      margin-bottom: 8px;
+      font-family: serif;
+    }
+    .cms-client-quote-text {
+      font-size: 0.94rem;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.65;
+      font-style: italic;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    .cms-client-info-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .cms-client-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(230, 202, 133, 0.2), rgba(184, 147, 67, 0.1));
+      border: 1px solid rgba(230, 202, 133, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--accent-gold);
+      font-size: 1.1rem;
+    }
+    .cms-client-details h4 {
+      font-size: 0.98rem;
+      color: #fff;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .cms-client-details p {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 2px;
+    }
+    .cms-client-loc {
+      font-size: 0.72rem;
+      color: var(--accent-gold);
+    }
+
+    /* Article Reader Modal */
+    .cms-article-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cms-article-modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .cms-article-modal-content {
+      background: #0d1017;
+      border: 1px solid rgba(230, 202, 133, 0.35);
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8), 0 0 40px rgba(230, 202, 133, 0.15);
+      border-radius: 24px;
+      max-width: 780px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 40px 42px;
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .cms-article-modal-backdrop.active .cms-article-modal-content {
+      transform: scale(1);
+    }
+    .cms-modal-close-btn {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cms-modal-close-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+    .cms-modal-article-body {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.85);
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Footer Admin Lock Link */
+    .footer-admin-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(230, 202, 133, 0.8);
+      font-size: 0.78rem;
+      text-decoration: none;
+      padding: 6px 12px;
+      border: 1px solid rgba(230, 202, 133, 0.25);
+      border-radius: 8px;
+      transition: all 0.25s;
+      background: rgba(230, 202, 133, 0.05);
+    }
+    .footer-admin-link:hover {
+      color: var(--accent-gold);
+      border-color: var(--accent-gold);
+      background: rgba(230, 202, 133, 0.15);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 768px) {
+      .cms-card-grid {
+        grid-template-columns: 1fr;
+      }
+      .cms-article-modal-content {
+        padding: 28px 20px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1862,6 +2215,9 @@
         <li><a href="#about" class="nav-link" data-i18n="nav_about">পরিচিতি</a></li>
         <li><a href="#brands" class="nav-link" data-i18n="nav_brands">সংস্থা ও ব্র্যান্ড</a></li>
         <li><a href="#erp" class="nav-link" data-i18n="nav_erp">SohozKarbar ERP</a></li>
+        <li><a href="#projects" class="nav-link" data-i18n="nav_projects">প্রজেক্টস</a></li>
+        <li><a href="#posts" class="nav-link" data-i18n="nav_posts">আর্টিকেল</a></li>
+        <li><a href="#clients" class="nav-link" data-i18n="nav_clients">ক্লায়েন্টস</a></li>
         <li><a href="#career" class="nav-link" data-i18n="nav_career">অভিজ্ঞতা</a></li>
         <li><a href="#gallery" class="nav-link" data-i18n="nav_gallery">গ্যালারি</a></li>
         <li><a href="#contact" class="nav-link" data-i18n="nav_contact">যোগাযোগ</a></li>
@@ -1875,6 +2231,11 @@
           <span class="lang-pill-divider">/</span>
           <span class="lang-pill-item" data-lang-val="en">EN</span>
         </button>
+
+        <a href="./admin.html" class="nav-admin-btn font-en" title="Executive CMS Admin Portal">
+          <span class="admin-lock-icon">🔒</span>
+          <span>Admin</span>
+        </a>
 
         <a href="https://wa.me/8801625914562" target="_blank" rel="noopener" class="nav-cta-btn font-en">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-.996-.062-.259-.082-.596-.192-1.018-.375-1.789-.778-2.956-2.582-3.046-2.699-.088-.119-.727-.968-.727-1.848 0-.879.461-1.312.625-1.491.164-.18.358-.224.477-.224.121 0 .24.001.346.006.11.005.257-.042.403.308.148.354.507 1.238.552 1.328.045.089.075.194.015.313-.06.12-.089.194-.179.299-.089.104-.189.233-.27.313-.089.089-.182.186-.078.365.104.179.463.766.994 1.239.684.609 1.26.799 1.439.888.179.089.284.075.389-.045.105-.119.448-.522.567-.701.12-.179.239-.149.403-.089.164.06 1.045.493 1.224.582.179.09.299.134.343.209.045.075.045.433-.099.838z"/></svg>
@@ -2130,22 +2491,22 @@
       <div class="container">
         <div class="metrics-grid font-en">
           <div class="metric-tile">
-            <div class="metric-number gold-text-gradient">10+</div>
+            <div class="metric-number gold-text-gradient" id="metricExpVal">10+</div>
             <div class="metric-label" data-i18n="metric1_lbl">বছর অভিজ্ঞতা</div>
             <div class="metric-sub" data-i18n="metric1_sub">ফাইন্যান্সিয়াল ডিসিপ্লিন ও অপারেশনস</div>
           </div>
           <div class="metric-tile">
-            <div class="metric-number gold-text-gradient">500+</div>
+            <div class="metric-number gold-text-gradient" id="metricMerchantsVal">500+</div>
             <div class="metric-label" data-i18n="metric2_lbl">মার্চেন্ট ও শপ</div>
             <div class="metric-sub" data-i18n="metric2_sub">সফটওয়্যার ও অটোমেশন সুবিধাভোগী</div>
           </div>
           <div class="metric-tile">
-            <div class="metric-number gold-text-gradient">99.9%</div>
+            <div class="metric-number gold-text-gradient" id="metricUptimeVal">99.9%</div>
             <div class="metric-label" data-i18n="metric3_lbl">সিস্টেম আপটাইম</div>
             <div class="metric-sub" data-i18n="metric3_sub">হাই-অ্যাভেইলেবিলিটি এন্টারপ্রাইজ সিস্টেম</div>
           </div>
           <div class="metric-tile">
-            <div class="metric-number gold-text-gradient">100%</div>
+            <div class="metric-number gold-text-gradient" id="metricAutomationVal">100%</div>
             <div class="metric-label" data-i18n="metric4_lbl">অটোমেশন ইন্টিগ্রেশন</div>
             <div class="metric-sub" data-i18n="metric4_sub">স্মার্ট প্রসেস ও হেডলেস ওয়ার্কফ্লো</div>
           </div>
@@ -2238,6 +2599,25 @@
       </div>
     </section>
 
+    <!-- Featured Projects & Systems Showcase (Dynamic CMS) -->
+    <section class="cms-dynamic-section reveal-on-scroll" id="projects">
+      <div class="container">
+        <div class="section-header-centered">
+          <span class="section-pill-tag font-en">Innovations & Platforms</span>
+          <h2 class="section-main-title font-bn" data-i18n="projects_heading">
+            নির্বাচিত প্রজেক্টস ও <span class="gold-text-gradient">সিস্টেম আর্কিটেকচার</span>
+          </h2>
+          <p class="section-desc font-bn" data-i18n="projects_sub">
+            ক্লাউড ইআরপি, হেডলেস অটোমেশন এবং এন্টারপ্রাইজ অ্যাকাউন্টস প্ল্যাটফর্ম— যা প্রতিদিন শত শত ব্যবসাকে গতিশীল রাখছে।
+          </p>
+        </div>
+
+        <div class="cms-card-grid" id="cmsProjectsGrid">
+          <!-- Rendered dynamically from cms-store.js -->
+        </div>
+      </div>
+    </section>
+
     <!-- Academic Research & Technical Whitepaper Showcase -->
     <section class="research-section reveal-on-scroll" id="research">
       <div class="container">
@@ -2278,6 +2658,44 @@
               </a>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest Articles, Research & Executive Insights (Dynamic CMS) -->
+    <section class="cms-dynamic-section reveal-on-scroll" id="posts">
+      <div class="container">
+        <div class="section-header-centered">
+          <span class="section-pill-tag font-en">Executive Insights & Articles</span>
+          <h2 class="section-main-title font-bn" data-i18n="posts_heading">
+            আর্টিকেল, গবেষণা ও <span class="gold-text-gradient">এক্সিকিউটিভ থটস</span>
+          </h2>
+          <p class="section-desc font-bn" data-i18n="posts_sub">
+            সফটওয়্যার ইঞ্জিনিয়ারিং, মাল্টি-কারেন্সি অ্যাকাউন্টস গভর্নেন্স এবং হেডলেস অটোমেশনের বাস্তব অভিজ্ঞতা ও বিশ্লেষণ।
+          </p>
+        </div>
+
+        <div class="cms-card-grid" id="cmsPostsGrid">
+          <!-- Rendered dynamically from cms-store.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Enterprise Clients & Trusted Partners (Dynamic CMS) -->
+    <section class="cms-dynamic-section reveal-on-scroll" id="clients">
+      <div class="container">
+        <div class="section-header-centered">
+          <span class="section-pill-tag font-en">Enterprise Clients & Partners</span>
+          <h2 class="section-main-title font-bn" data-i18n="clients_heading">
+            বিশ্বস্ত ক্লায়েন্টস ও <span class="gold-text-gradient">পার্টনার্স মূল্যায়ন</span>
+          </h2>
+          <p class="section-desc font-bn" data-i18n="clients_sub">
+            টেক্সটাইল ম্যানুফ্যাকচারিং থেকে শুরু করে রিটেইল মার্চেন্ট— যাদের নির্ভরযোগ্য অপারেশনাল সঙ্গী রিফাত উদ্দিনের তৈরি সিস্টেম।
+          </p>
+        </div>
+
+        <div class="cms-card-grid" id="cmsClientsGrid">
+          <!-- Rendered dynamically from cms-store.js -->
         </div>
       </div>
     </section>
@@ -2435,6 +2853,30 @@
         </div>
       </div>
     </section>
+  
+    <!-- Dynamic Article Reader Modal -->
+    <div class="cms-article-modal-backdrop" id="cmsArticleModal" aria-hidden="true">
+      <div class="cms-article-modal-content">
+        <button class="cms-modal-close-btn" id="cmsModalCloseBtn" aria-label="Close modal">✕</button>
+        <div class="cms-card-meta-row" style="margin-bottom: 12px;">
+          <span class="cms-category-pill font-mono" id="cmsModalCategory">Category</span>
+          <span class="cms-post-badge font-mono" id="cmsModalBadge">Featured</span>
+        </div>
+        <div class="cms-post-date-row font-mono" style="margin-bottom: 18px;">
+          <span id="cmsModalDate">Date</span>
+          <span>•</span>
+          <span id="cmsModalReadTime">5 min read</span>
+        </div>
+        <h2 id="cmsModalTitle" class="font-bn" style="font-size: 1.65rem; color: #fff; line-height: 1.35; margin-bottom: 20px;">Title</h2>
+        <div class="cms-modal-article-body font-bn" id="cmsModalBody">
+          <!-- Full content -->
+        </div>
+        <div style="margin-top: 32px; display: flex; justify-content: flex-end;">
+          <button class="cms-action-btn font-en" id="cmsModalDoneBtn">Done Reading</button>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- Footer -->
@@ -2448,8 +2890,13 @@
           <span class="font-mono">rifatuddin.ami.bd</span>
         </div>
 
-        <div class="font-bn">
-          © 2026 Rifat Uddin. All rights reserved • Built with Simple Technology, Smarter Business.
+        <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+          <a href="./admin.html" class="footer-admin-link font-en" title="Executive Admin CMS Portal">
+            <span>🔒</span> Executive CMS Portal
+          </a>
+          <div class="font-bn" style="color: rgba(255,255,255,0.6); font-size: 0.85rem;">
+            © 2026 Rifat Uddin. All rights reserved • Built with Simple Technology, Smarter Business.
+          </div>
         </div>
       </div>
     </div>
@@ -2832,6 +3279,15 @@
         nav_gallery: 'গ্যালারি',
         nav_contact: 'যোগাযোগ',
         nav_cta: 'WhatsApp আলাপ',
+        nav_projects: 'প্রজেক্টস',
+        nav_posts: 'আর্টিকেল',
+        nav_clients: 'ক্লায়েন্টস',
+        projects_heading: 'নির্বাচিত প্রজেক্টস ও <span class="gold-text-gradient">সিস্টেম আর্কিটেকচার</span>',
+        projects_sub: 'ক্লাউড ইআরপি, হেডলেস অটোমেশন এবং এন্টারপ্রাইজ অ্যাকাউন্টস প্ল্যাটফর্ম— যা প্রতিদিন শত শত ব্যবসাকে গতিশীল রাখছে।',
+        posts_heading: 'আর্টিকেল, গবেষণা ও <span class="gold-text-gradient">এক্সিকিউটিভ থটস</span>',
+        posts_sub: 'সফটওয়্যার ইঞ্জিনিয়ারিং, মাল্টি-কারেন্সি অ্যাকাউন্টস গভর্নেন্স এবং হেডলেস অটোমেশনের বাস্তব অভিজ্ঞতা ও বিশ্লেষণ।',
+        clients_heading: 'বিশ্বস্ত ক্লায়েন্টস ও <span class="gold-text-gradient">পার্টনার্স মূল্যায়ন</span>',
+        clients_sub: 'টেক্সটাইল ম্যানুফ্যাকচারিং থেকে শুরু করে রিটেইল মার্চেন্ট— যাদের নির্ভরযোগ্য অপারেশনাল সঙ্গী রিফাত উদ্দিনের তৈরি সিস্টেম।',
 
         hero_headline: 'বাণিজ্যিক দূরদর্শিতা ও আধুনিক প্রযুক্তির মেলবন্ধন— <span class="gold-text-gradient">ব্যবসার নতুন দিগন্ত</span>',
         hero_bio: 'আমি <strong>রিফাত উদ্দিন (Rifat Uddin)</strong> — প্রতিষ্ঠাতা, <strong>Sohoz Karbar Tech Solutions</strong> এবং ক্রিয়েটর, <strong>SohozKarbar ERP</strong>। আন্তর্জাতিক টেক্সটাইল বাণিজ্যের আর্থিক গভর্নেন্স, মাল্টি-কারেন্সি অ্যাকাউন্টিং এবং দেশীয় রিটেইল ব্যবসার ডিজিটালাইজেশনে দীর্ঘ ১ দশক ধরে নিবেদিত।',
@@ -2892,6 +3348,15 @@
         nav_gallery: 'Gallery',
         nav_contact: 'Contact',
         nav_cta: 'WhatsApp Chat',
+        nav_projects: 'Projects',
+        nav_posts: 'Articles',
+        nav_clients: 'Clients',
+        projects_heading: 'Featured Projects & <span class="gold-text-gradient">System Architecture</span>',
+        projects_sub: 'Cloud ERP, headless marketing engines, and corporate ledgers empowering hundreds of businesses daily.',
+        posts_heading: 'Articles, Research & <span class="gold-text-gradient">Executive Insights</span>',
+        posts_sub: 'Real-world analyses covering software engineering, multi-currency finance, and autonomous headless workflows.',
+        clients_heading: 'Trusted Clients & <span class="gold-text-gradient">Enterprise Partners</span>',
+        clients_sub: 'From international textile conglomerates to retail merchants relying on systems built by Rifat Uddin.',
 
         hero_headline: 'Bridging Commercial Vision & Modern Technology — <span class="gold-text-gradient">The Future of Business</span>',
         hero_bio: 'I am <strong>Rifat Uddin</strong> — Founder of <strong>Sohoz Karbar Tech Solutions</strong> and Creator of <strong>SohozKarbar ERP</strong>. Dedicated for nearly a decade to international textile financial governance, multi-currency corporate accounting, and retail digitalization in Bangladesh.',
@@ -2969,6 +3434,7 @@
 
       // Update dynamic ERP tab
       renderErpTab(currentActiveTab, lang);
+      renderDynamicCmsContent(lang);
     }
 
     (function initLanguageSwitcher() {
@@ -2995,5 +3461,197 @@
       }
     })();
   </script>
+
+  <!-- Central CMS Engine & Dynamic Render Engine -->
+  <script src="./cms-store.js"></script>
+  <script>
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function openArticleModal(postId, isEn) {
+      if (typeof window.cmsStore === 'undefined') return;
+      const posts = cmsStore.getPosts();
+      const post = posts.find(p => p.id === postId);
+      if (!post) return;
+
+      const modal = document.getElementById('cmsArticleModal');
+      const catEl = document.getElementById('cmsModalCategory');
+      const badgeEl = document.getElementById('cmsModalBadge');
+      const dateEl = document.getElementById('cmsModalDate');
+      const readTimeEl = document.getElementById('cmsModalReadTime');
+      const titleEl = document.getElementById('cmsModalTitle');
+      const bodyEl = document.getElementById('cmsModalBody');
+
+      if (catEl) catEl.textContent = post.category || 'Article';
+      if (badgeEl) badgeEl.textContent = post.badge || 'Executive Note';
+      if (dateEl) dateEl.textContent = '📅 ' + (isEn ? (post.date_en || post.date) : (post.date || post.date_en));
+      if (readTimeEl) readTimeEl.textContent = '⏱️ ' + (isEn ? (post.read_time_en || post.read_time) : (post.read_time || post.read_time_en));
+      if (titleEl) {
+        titleEl.textContent = isEn ? (post.title_en || post.title_bn) : (post.title_bn || post.title_en);
+        titleEl.className = isEn ? 'font-en' : 'font-bn';
+      }
+      if (bodyEl) {
+        const rawContent = isEn ? (post.content_en || post.content_bn) : (post.content_bn || post.content_en);
+        bodyEl.className = (isEn ? 'font-en' : 'font-bn') + ' cms-modal-article-body';
+        bodyEl.innerHTML = (rawContent || '').split('\n\n').map(para => `<p style="margin-bottom: 16px;">${escapeHtml(para)}</p>`).join('');
+      }
+
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeArticleModal() {
+      const modal = document.getElementById('cmsArticleModal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    (function initModalListeners() {
+      const closeBtn = document.getElementById('cmsModalCloseBtn');
+      const doneBtn = document.getElementById('cmsModalDoneBtn');
+      const modal = document.getElementById('cmsArticleModal');
+
+      if (closeBtn) closeBtn.addEventListener('click', closeArticleModal);
+      if (doneBtn) doneBtn.addEventListener('click', closeArticleModal);
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeArticleModal();
+        });
+      }
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeArticleModal();
+      });
+    })();
+
+    function renderDynamicCmsContent(lang) {
+      if (typeof window.cmsStore === 'undefined') return;
+      const isEn = lang === 'en';
+
+      // 1. Metrics
+      const metrics = cmsStore.getMetrics();
+      const expEl = document.getElementById('metricExpVal');
+      const merchantsEl = document.getElementById('metricMerchantsVal');
+      const uptimeEl = document.getElementById('metricUptimeVal');
+      const autoEl = document.getElementById('metricAutomationVal');
+      if (expEl && metrics.exp_val) expEl.textContent = metrics.exp_val;
+      if (merchantsEl && metrics.merchants_val) merchantsEl.textContent = metrics.merchants_val;
+      if (uptimeEl && metrics.uptime_val) uptimeEl.textContent = metrics.uptime_val;
+      if (autoEl && metrics.automation_val) autoEl.textContent = metrics.automation_val;
+
+      // 2. Projects
+      const projectsGrid = document.getElementById('cmsProjectsGrid');
+      if (projectsGrid) {
+        const projects = cmsStore.getProjects();
+        projectsGrid.innerHTML = projects.map(p => `
+          <div class="cms-project-card">
+            <div>
+              <div class="cms-card-meta-row">
+                <span class="cms-category-pill font-mono">${escapeHtml(p.category || 'Platform')}</span>
+                <span class="cms-entity-badge font-en">${escapeHtml(p.entity || '')}</span>
+              </div>
+              <h3 class="cms-card-title ${isEn ? 'font-en' : 'font-bn'}">${escapeHtml(isEn ? (p.title_en || p.title_bn) : (p.title_bn || p.title_en))}</h3>
+              <p class="cms-card-desc ${isEn ? 'font-en' : 'font-bn'}">${escapeHtml(isEn ? (p.desc_en || p.desc_bn) : (p.desc_bn || p.desc_en))}</p>
+              <div class="cms-tech-stack-row">
+                ${(p.tech || []).map(t => `<span class="cms-tech-pill font-mono">${escapeHtml(t)}</span>`).join('')}
+              </div>
+            </div>
+            <div>
+              <a href="${escapeHtml(p.live_url || '#')}" target="_blank" rel="noopener" class="cms-action-btn font-en">
+                <span>${isEn ? 'Explore Project' : 'প্রজেক্ট দেখুন'}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+              </a>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // 3. Posts
+      const postsGrid = document.getElementById('cmsPostsGrid');
+      if (postsGrid) {
+        const posts = cmsStore.getPosts();
+        postsGrid.innerHTML = posts.map(post => `
+          <div class="cms-post-card">
+            <div>
+              <div class="cms-card-meta-row">
+                <span class="cms-category-pill font-mono">${escapeHtml(post.category || 'Article')}</span>
+                <span class="cms-post-badge font-mono">${escapeHtml(post.badge || 'Published')}</span>
+              </div>
+              <div class="cms-post-date-row font-mono">
+                <span>📅 ${escapeHtml(isEn ? (post.date_en || post.date) : (post.date || post.date_en))}</span>
+                <span>•</span>
+                <span class="cms-read-time">⏱️ ${escapeHtml(isEn ? (post.read_time_en || post.read_time) : (post.read_time || post.read_time_en))}</span>
+              </div>
+              <h3 class="cms-card-title ${isEn ? 'font-en' : 'font-bn'}">${escapeHtml(isEn ? (post.title_en || post.title_bn) : (post.title_bn || post.title_en))}</h3>
+              <p class="cms-card-desc ${isEn ? 'font-en' : 'font-bn'}">${escapeHtml(isEn ? (post.excerpt_en || post.excerpt_bn) : (post.excerpt_bn || post.excerpt_en))}</p>
+            </div>
+            <div>
+              <button class="cms-action-btn font-en cms-open-post-btn" data-post-id="${post.id}">
+                <span>${isEn ? 'Read Full Insight' : 'সম্পূর্ণ পড়ুন'}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+        `).join('');
+
+        postsGrid.querySelectorAll('.cms-open-post-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const pId = btn.getAttribute('data-post-id');
+            openArticleModal(pId, isEn);
+          });
+        });
+      }
+
+      // 4. Clients
+      const clientsGrid = document.getElementById('cmsClientsGrid');
+      if (clientsGrid) {
+        const clients = cmsStore.getClients();
+        clientsGrid.innerHTML = clients.map(c => `
+          <div class="cms-client-card">
+            <div>
+              <div class="cms-card-meta-row">
+                <span class="cms-category-pill font-mono">${escapeHtml(c.tag || 'Partner')}</span>
+                <span class="cms-client-loc font-mono">📍 ${escapeHtml(c.location || '')}</span>
+              </div>
+              <div class="cms-quote-mark">“</div>
+              <p class="cms-client-quote-text ${isEn ? 'font-en' : 'font-bn'}">${escapeHtml(isEn ? (c.quote_en || c.quote_bn) : (c.quote_bn || c.quote_en))}</p>
+            </div>
+            <div class="cms-client-info-box">
+              <div class="cms-client-avatar font-en">${escapeHtml((c.name_en || c.name_bn || 'C').charAt(0))}</div>
+              <div class="cms-client-details">
+                <h4 class="${isEn ? 'font-en' : 'font-bn'}">${escapeHtml(isEn ? (c.name_en || c.name_bn) : (c.name_bn || c.name_en))}</h4>
+                <p class="${isEn ? 'font-en' : 'font-bn'}">${escapeHtml(isEn ? (c.type_en || c.type_bn) : (c.type_bn || c.type_en))}</p>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Initial render on load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderDynamicCmsContent(currentAppLang || 'bn');
+    });
+    // Fallback immediate render
+    renderDynamicCmsContent(currentAppLang || 'bn');
+
+    // Live update across browser tabs
+    if (typeof cmsStore !== 'undefined') {
+      cmsStore.subscribe(() => {
+        renderDynamicCmsContent(currentAppLang || 'bn');
+      });
+    }
+  </script>
+
 </body>
 </html>

@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Executive Admin CMS Portal — Rifat Uddin (রিফাত উদ্দিন)</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+  
+  <!-- Google Fonts: Hind Siliguri, Outfit, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #06070a;
+      --bg-card: rgba(14, 17, 26, 0.85);
+      --bg-card-hover: rgba(22, 28, 42, 0.9);
+      --accent-gold: #e6ca85;
+      --accent-gold-light: #f5e4b8;
+      --accent-gold-dark: #b89343;
+      --accent-gold-glow: rgba(230, 202, 133, 0.25);
+      --accent-cyan: #38bdf8;
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-gold: rgba(230, 202, 133, 0.28);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-en: 'Outfit', sans-serif;
+      --font-bn: 'Hind Siliguri', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(230, 202, 133, 0.07) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(56, 189, 248, 0.05) 0%, transparent 45%),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      color: var(--text-main);
+      font-family: var(--font-bn), var(--font-en);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    .font-en { font-family: var(--font-en); }
+    .font-bn { font-family: var(--font-bn); }
+    .font-mono { font-family: var(--font-mono); }
+
+    /* ==============================================================
+       1. LOGIN GATEWAY (OBSIDIAN & GOLD GLASS)
+       ============================================================== */
+    #loginGateway {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: radial-gradient(circle at center, rgba(14, 18, 28, 0.95) 0%, #06070a 100%);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    #loginGateway.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 440px;
+      background: rgba(14, 18, 28, 0.88);
+      border: 1px solid var(--border-gold);
+      border-radius: 24px;
+      padding: 40px 32px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 40px var(--accent-gold-glow);
+      position: relative;
+      overflow: hidden;
+      animation: loginCardPop 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .login-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+    }
+
+    @keyframes loginCardPop {
+      0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .login-brand-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .login-logo-img {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      border: 2px solid var(--border-gold);
+      box-shadow: 0 0 25px var(--accent-gold-glow);
+      margin-bottom: 14px;
+      object-fit: cover;
+      background: #000;
+    }
+
+    .login-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+
+    .login-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(230, 202, 133, 0.1);
+      border: 1px solid var(--border-gold);
+      color: var(--accent-gold-light);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      margin-top: 8px;
+      text-transform: uppercase;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-control {
+      width: 100%;
+      background: rgba(6, 7, 10, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 13px 16px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: all 0.25s ease;
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 3px rgba(230, 202, 133, 0.15);
+      background: rgba(14, 18, 28, 0.95);
+    }
+
+    .input-icon-btn {
+      position: absolute;
+      right: 14px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .input-icon-btn:hover { color: var(--accent-gold-light); }
+
+    .login-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
+      color: #08090d;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 10px 25px rgba(230, 202, 133, 0.3);
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(230, 202, 133, 0.45);
+    }
+
+    .login-btn:active { transform: translateY(0); }
+
+    .login-error {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #fca5a5;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .login-hint {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* ==============================================================
+       2. DASHBOARD MAIN APP LAYOUT
+       ============================================================== */
+    #adminApp {
+      display: none;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    #adminApp.active {
+      display: flex;
+    }
+
+    /* Header Nav */
+    .admin-navbar {
+      background: rgba(10, 13, 20, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 14px 24px;
+    }
+
+    .nav-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo-img {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: 1.5px solid var(--accent-gold-dark);
+      box-shadow: 0 0 14px var(--accent-gold-glow);
+      object-fit: cover;
+      background: #000;
+    }
+
+    .brand-info-col h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-info-col span {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-action-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: 9999px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .btn-action-ghost:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--border-gold);
+      color: var(--accent-gold-light);
+      transform: translateY(-1px);
+    }
+
+    .btn-logout {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: rgba(239, 68, 68, 0.25);
+      color: #f87171;
+    }
+
+    .btn-logout:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: rgba(239, 68, 68, 0.5);
+      color: #ef4444;
+    }
+
+    /* Main Container */
+    .admin-main {
+      max-width: 1300px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 32px 24px 60px;
+      flex: 1;
+    }
+
+    /* Stat Cards Bar */
+    .stats-overview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    .stat-card:hover {
+      border-color: var(--border-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px -10px rgba(230, 202, 133, 0.15);
+    }
+
+    .stat-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: rgba(230, 202, 133, 0.1);
+      border: 1px solid var(--border-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: var(--accent-gold-light);
+    }
+
+    .stat-info-col h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .stat-info-col p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Navigation Tabs */
+    .admin-tab-nav {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 28px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .tab-nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 12px 20px;
+      border-radius: 12px 12px 0 0;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .tab-nav-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .tab-nav-btn.active {
+      color: var(--accent-gold-light);
+      background: rgba(230, 202, 133, 0.08);
+    }
+
+    .tab-nav-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-light));
+    }
+
+    /* Tab Content Panes */
+    .tab-pane {
+      display: none;
+      animation: tabFadeIn 0.3s ease;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes tabFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .section-title-wrap h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .section-title-wrap p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .btn-gold-action {
+      background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
+      color: #08090d;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 9999px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(230, 202, 133, 0.25);
+      transition: all 0.25s ease;
+    }
+
+    .btn-gold-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(230, 202, 133, 0.4);
+    }
+
+    /* Cards Grid */
+    .cms-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 20px;
+    }
+
+    .cms-item-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .cms-item-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-gold);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7);
+    }
+
+    .card-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .category-chip {
+      background: rgba(230, 202, 133, 0.1);
+      border: 1px solid var(--border-gold);
+      color: var(--accent-gold-light);
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .date-tag {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .item-title-bn {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .item-title-en {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--accent-gold-light);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .item-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .tech-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .tech-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #cbd5e1;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+    }
+
+    .card-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 14px;
+      margin-top: auto;
+    }
+
+    .btn-item-action {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-item-action:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-color: var(--border-gold);
+    }
+
+    .btn-delete {
+      color: #f87171;
+      border-color: rgba(239, 68, 68, 0.2);
+    }
+
+    .btn-delete:hover {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #ef4444;
+    }
+
+    /* Client Quote Card */
+    .client-quote-box {
+      background: rgba(0, 0, 0, 0.25);
+      border-left: 2px solid var(--accent-gold);
+      padding: 10px 14px;
+      border-radius: 0 10px 10px 0;
+      margin-bottom: 14px;
+      font-size: 0.84rem;
+      color: #cbd5e1;
+      font-style: italic;
+    }
+
+    /* Modal Form */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 900;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 650px;
+      max-height: 90vh;
+      background: #0d1019;
+      border: 1px solid var(--border-gold);
+      border-radius: 24px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalSlide 0.3s ease;
+    }
+
+    @keyframes modalSlide {
+      from { transform: translateY(20px) scale(0.96); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      font-size: 1.25rem;
+      color: #fff;
+    }
+
+    .modal-close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.4rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .modal-close-btn:hover { color: #fff; }
+
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .modal-footer {
+      padding: 18px 24px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      background: rgba(6, 7, 10, 0.5);
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Floating Toast */
+    .toast-pill {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 99999;
+      background: #111827;
+      border: 1px solid var(--accent-gold);
+      color: #fff;
+      padding: 12px 22px;
+      border-radius: 9999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px var(--accent-gold-glow);
+      display: none;
+      align-items: center;
+      gap: 10px;
+      animation: toastIn 0.3s ease;
+    }
+
+    @keyframes toastIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .stats-overview-grid { grid-template-columns: repeat(2, 1fr); }
+      .cms-cards-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .stats-overview-grid { grid-template-columns: 1fr; }
+      .form-grid-2 { grid-template-columns: 1fr; }
+      .admin-navbar { padding: 12px 16px; }
+      .admin-main { padding: 20px 16px 40px; }
+      .brand-info-col h1 { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==============================================================
+       1. EXECUTIVE LOGIN GATEWAY
+       ============================================================== -->
+  <div id="loginGateway">
+    <div class="login-box">
+      <div class="login-brand-header">
+        <img src="./sk-tech-solutions-logo.png" alt="Sohoz Karbar Logo" class="login-logo-img">
+        <div class="login-title font-en">Rifat Uddin</div>
+        <div class="login-badge font-mono">Executive Command Portal 🔒</div>
+      </div>
+
+      <div class="login-error" id="loginError">
+        <span>⚠️</span>
+        <span id="loginErrorMsg">ভুল ইউজারনেম বা পাসওয়ার্ড দেওয়া হয়েছে।</span>
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label font-en">User ID / Username</label>
+          <div class="input-wrapper">
+            <input type="text" id="adminUser" class="form-control font-en" placeholder="Enter username" autocomplete="username" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label font-en">Access Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="adminPass" class="form-control font-en" placeholder="Enter secure password" autocomplete="current-password" required>
+            <button type="button" class="input-icon-btn" onclick="togglePasswordVisibility()" title="Show/Hide Password">👁️</button>
+          </div>
+        </div>
+
+        <button type="submit" class="login-btn font-en">
+          <span>Authenticate &amp; Unlock</span>
+          <span>✦</span>
+        </button>
+      </form>
+
+      <div class="login-hint font-mono">
+        Authorized Access Only &bull; Rifat Uddin Official
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================================================
+       2. DASHBOARD MAIN APP
+       ============================================================== -->
+  <div id="adminApp">
+    <!-- Top Navbar -->
+    <header class="admin-navbar">
+      <div class="nav-container">
+        <div class="brand-group">
+          <img src="./sk-tech-solutions-logo.png" alt="Sohoz Karbar Logo" class="brand-logo-img">
+          <div class="brand-info-col">
+            <h1 class="font-en">
+              Rifat Uddin <span style="font-size: 0.75rem; color: var(--accent-gold); font-weight: 600;">[CMS ADMIN]</span>
+            </h1>
+            <span class="font-mono">rifatuddin.ami.bd &bull; Executive System Active</span>
+          </div>
+        </div>
+
+        <div class="nav-actions">
+          <a href="./index.html" target="_blank" class="btn-action-ghost font-en" title="Open Public Portfolio in new tab">
+            <span>🌐 View Live Site</span>
+            <span>↗</span>
+          </a>
+          <button class="btn-action-ghost btn-logout font-en" onclick="handleLogout()">
+            <span>Logout 🚪</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      
+      <!-- Stats Overview Bar -->
+      <section class="stats-overview-grid">
+        <div class="stat-card">
+          <div class="stat-icon-box">📝</div>
+          <div class="stat-info-col">
+            <h3 id="statPostsCount">3</h3>
+            <p>প্রকাশিত পোস্ট ও আর্টিকেলস</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-box">🚀</div>
+          <div class="stat-info-col">
+            <h3 id="statProjectsCount">4</h3>
+            <p>লাইভ প্রজেক্ট ও প্রোডাক্টস</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-box">🤝</div>
+          <div class="stat-info-col">
+            <h3 id="statClientsCount">4</h3>
+            <p>ভ্যালুয়েড ক্লায়েন্ট ও পার্টনার্স</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-box">⚡</div>
+          <div class="stat-info-col">
+            <h3 style="color: var(--accent-green);">100%</h3>
+            <p>রিয়েল-টাইম ক্লাউড সিঙ্ক</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Navigation Tabs -->
+      <nav class="admin-tab-nav">
+        <button class="tab-nav-btn active" onclick="switchAdminTab('posts')">
+          <span>📝 পোস্ট ও ইনসাইটস</span>
+        </button>
+        <button class="tab-nav-btn" onclick="switchAdminTab('projects')">
+          <span>🚀 প্রজেক্ট পোর্টফোলিও</span>
+        </button>
+        <button class="tab-nav-btn" onclick="switchAdminTab('clients')">
+          <span>🤝 ক্লায়েন্ট ও পার্টনারস</span>
+        </button>
+        <button class="tab-nav-btn" onclick="switchAdminTab('metrics')">
+          <span>📊 লাইভ মেট্রিক্স</span>
+        </button>
+        <button class="tab-nav-btn" onclick="switchAdminTab('backup')">
+          <span>⚙️ ডাটা ব্যাকআপ ও এক্সপোর্ট</span>
+        </button>
+      </nav>
+
+      <!-- PANE 1: POSTS & ARTICLES -->
+      <div id="pane-posts" class="tab-pane active">
+        <div class="section-toolbar">
+          <div class="section-title-wrap">
+            <h2>পোস্ট ও ইনসাইটস ম্যানেজমেন্ট</h2>
+            <p>নতুন কোনো আর্টিকেল, টেকনিক্যাল নোট বা ব্যবসায়িক আপডেট পাবলিশ ও পরিচালনা করুন।</p>
+          </div>
+          <button class="btn-gold-action font-bn" onclick="openPostModal()">
+            <span>+ নতুন পোস্ট যোগ করুন</span>
+          </button>
+        </div>
+
+        <div class="cms-cards-grid" id="postsListContainer">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- PANE 2: PROJECTS -->
+      <div id="pane-projects" class="tab-pane">
+        <div class="section-toolbar">
+          <div class="section-title-wrap">
+            <h2>প্রজেক্ট ও ভেঞ্চারস ম্যানেজমেন্ট</h2>
+            <p>সহজ কারবার ও আপনার নির্মিত সফটওয়্যার, সিস্টেম এবং ক্লাউড প্রজেক্ট আপডেট রাখুন।</p>
+          </div>
+          <button class="btn-gold-action font-bn" onclick="openProjectModal()">
+            <span>+ নতুন প্রজেক্ট যোগ করুন</span>
+          </button>
+        </div>
+
+        <div class="cms-cards-grid" id="projectsListContainer">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- PANE 3: CLIENTS & PARTNERS -->
+      <div id="pane-clients" class="tab-pane">
+        <div class="section-toolbar">
+          <div class="section-title-wrap">
+            <h2>ক্লায়েন্ট ও এন্টারপ্রাইজ পার্টনারস</h2>
+            <p>নতুন কোনো মার্চেন্ট, ক্লায়েন্ট বা প্রতিষ্ঠানের প্রশংসাপত্র যুক্ত করুন।</p>
+          </div>
+          <button class="btn-gold-action font-bn" onclick="openClientModal()">
+            <span>+ নতুন ক্লায়েন্ট যোগ করুন</span>
+          </button>
+        </div>
+
+        <div class="cms-cards-grid" id="clientsListContainer">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- PANE 4: METRICS -->
+      <div id="pane-metrics" class="tab-pane">
+        <div class="section-toolbar">
+          <div class="section-title-wrap">
+            <h2>ওয়েবসাইট হেডলাইন মেট্রিক্স</h2>
+            <p>মূল ওয়েবসাইটের ৪টি প্রধান মেট্রিক সংখ্যা সরাসরি এখান থেকে আপডেট করুন।</p>
+          </div>
+        </div>
+
+        <div style="max-width: 650px; background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: 20px; padding: 28px;">
+          <form onsubmit="handleSaveMetrics(event)">
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label font-bn">কাজের অভিজ্ঞতা (Years Experience)</label>
+                <input type="text" id="metricExp" class="form-control font-en" value="10+" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label font-bn">সক্রিয় মার্চেন্ট ও শপ (Active Merchants)</label>
+                <input type="text" id="metricMerchants" class="form-control font-en" value="500+" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label font-bn">সিস্টেম আপটাইম (System Uptime)</label>
+                <input type="text" id="metricUptime" class="form-control font-en" value="99.9%" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label font-bn">অটোমেশন ইন্টিগ্রেশন (Automation)</label>
+                <input type="text" id="metricAutomation" class="form-control font-en" value="100%" required>
+              </div>
+            </div>
+            <button type="submit" class="btn-gold-action font-bn" style="margin-top: 10px;">
+              <span>মেট্রিক্স সংরক্ষণ করুন 💾</span>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- PANE 5: BACKUP & EXPORT -->
+      <div id="pane-backup" class="tab-pane">
+        <div class="section-toolbar">
+          <div class="section-title-wrap">
+            <h2>ডাটা ব্যাকআপ, এক্সপোর্ট ও সিঙ্ক্রোনাইজেশন</h2>
+            <p>পুরো ওয়েবসাইটের ডাটা নিরাপদ রাখুন, ব্যাকআপ ফাইল নামিয়ে নিন বা পূর্বাবস্থায় ফিরিয়ে নিন।</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+          <!-- Export Card -->
+          <div class="cms-item-card">
+            <h3 style="color: #fff; margin-bottom: 8px;">📥 সম্পূর্ণ ডাটা ডাউনলোড (JSON)</h3>
+            <p class="item-desc">আপনার সকল পোস্ট, প্রজেক্ট, ক্লায়েন্ট ও মেট্রিক্সের একটি কমপ্লিট ব্যাকআপ ফাইল ডাউনলোড করে নিজের কাছে সংরক্ষণ করুন।</p>
+            <button class="btn-gold-action font-bn" onclick="exportDataJson()">
+              <span>ব্যাকআপ ডাউনলোড করুন (JSON) ⬇️</span>
+            </button>
+          </div>
+
+          <!-- Import Card -->
+          <div class="cms-item-card">
+            <h3 style="color: #fff; margin-bottom: 8px;">📤 ডাটা রিস্টোর / আপলোড</h3>
+            <p class="item-desc">পূর্বে ডাউনলোড করা যেকোনো ব্যাকআপ JSON ফাইল সিলেক্ট করে সাইটের ডাটা এক ক্লিকে রিস্টোর করুন।</p>
+            <input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="handleImportJson(event)">
+            <button class="btn-action-ghost font-bn" onclick="document.getElementById('importFileInput').click()">
+              <span>JSON ফাইল নির্বাচন করুন 📂</span>
+            </button>
+          </div>
+
+          <!-- Reset Card -->
+          <div class="cms-item-card">
+            <h3 style="color: #f87171; margin-bottom: 8px;">⚠️ ফ্যাক্টরি রিসেট (Default Data)</h3>
+            <p class="item-desc">সাইটের সমস্ত ডাটা পুনরায় মূল ডিফল্ট অবস্থায় রিসেট করতে চাইলে এটি ব্যবহার করুন।</p>
+            <button class="btn-item-action btn-delete font-bn" onclick="handleResetDefaults()">
+              <span>রিসেট টু ডিফল্ট 🔄</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ==============================================================
+       3. MODAL DIALOGS (POST, PROJECT, CLIENT)
+       ============================================================== -->
+  
+  <!-- Post Modal -->
+  <div class="modal-backdrop" id="postModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="postModalTitle">নতুন পোস্ট যোগ করুন</h3>
+        <button class="modal-close-btn" onclick="closePostModal()">&times;</button>
+      </div>
+      <form id="postForm" onsubmit="handleSavePost(event)">
+        <input type="hidden" id="postId">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label font-bn">পোস্টের শিরোনাম (বাংলা) *</label>
+            <input type="text" id="postTitleBn" class="form-control font-bn" placeholder="যেমন: সহজ কারবার আর্কিটেকচার..." required>
+          </div>
+          <div class="form-group">
+            <label class="form-label font-en">Post Title (English) *</label>
+            <input type="text" id="postTitleEn" class="form-control font-en" placeholder="e.g. SohozKarbar Architecture..." required>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label font-bn">ক্যাটাগরি / বিষয় *</label>
+              <input type="text" id="postCategory" class="form-control font-en" placeholder="e.g. Tech & ERP" value="Tech & ERP" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label font-bn">তারিখ (যেমন: নভেম্বর ২০২৬)</label>
+              <input type="text" id="postDate" class="form-control font-bn" placeholder="তারিখ" value="নভেম্বর ২০২৬">
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label font-bn">পড়ার আনুমানিক সময়</label>
+              <input type="text" id="postReadTime" class="form-control font-bn" placeholder="যেমন: ৫ মিনিট পাঠ" value="৪ মিনিট পাঠ">
+            </div>
+            <div class="form-group">
+              <label class="form-label font-bn">ব্যাজ (Badge Tag)</label>
+              <input type="text" id="postBadge" class="form-control font-en" placeholder="e.g. Featured" value="Featured">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label font-bn">সংক্ষিপ্ত বিবরণ (বাংলা এক্সার্পট) *</label>
+            <textarea id="postExcerptBn" class="form-control font-bn" rows="2" placeholder="সংক্ষেপে পোস্টের মূল কথা..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label font-en">Short Excerpt (English) *</label>
+            <textarea id="postExcerptEn" class="form-control font-en" rows="2" placeholder="Brief summary in English..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label font-bn">সম্পূর্ণ আর্টিকেল টেক্সট (বাংলা)</label>
+            <textarea id="postContentBn" class="form-control font-bn" rows="3" placeholder="বিস্তারিত আর্টিকেল..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label font-en">Full Article Text (English)</label>
+            <textarea id="postContentEn" class="form-control font-en" rows="3" placeholder="Full detailed content..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-action-ghost font-bn" onclick="closePostModal()">বাতিল</button>
+          <button type="submit" class="btn-gold-action font-bn">সংরক্ষণ ও পাবলিশ ✦</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Project Modal -->
+  <div class="modal-backdrop" id="projectModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="projectModalTitle">নতুন প্রজেক্ট যোগ করুন</h3>
+        <button class="modal-close-btn" onclick="closeProjectModal()">&times;</button>
+      </div>
+      <form id="projectForm" onsubmit="handleSaveProject(event)">
+        <input type="hidden" id="projId">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label font-bn">প্রজেক্টের নাম (বাংলা) *</label>
+            <input type="text" id="projTitleBn" class="form-control font-bn" placeholder="যেমন: SohozKarbar ERP" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label font-en">Project Title (English) *</label>
+            <input type="text" id="projTitleEn" class="form-control font-en" placeholder="e.g. SohozKarbar ERP Suite" required>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label font-bn">প্রতিষ্ঠানের নাম (Entity/Brand)</label>
+              <input type="text" id="projEntity" class="form-control font-en" placeholder="e.g. Sohoz Karbar Tech Solutions" value="Sohoz Karbar Tech Solutions">
+            </div>
+            <div class="form-group">
+              <label class="form-label font-bn">ক্যাটাগরি (Category)</label>
+              <input type="text" id="projCategory" class="form-control font-en" placeholder="e.g. Cloud ERP & POS" value="Cloud ERP & POS">
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label font-bn">স্ট্যাটাস ব্যাজ (Badge)</label>
+              <input type="text" id="projBadge" class="form-control font-en" placeholder="e.g. Active System" value="Active System">
+            </div>
+            <div class="form-group">
+              <label class="form-label font-en">Live Project URL</label>
+              <input type="url" id="projUrl" class="form-control font-en" placeholder="https://..." value="https://www.sohozkarbar.pro.bd">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label font-bn">টেকনোলজি স্ট্যাক (কমা দিয়ে লিখুন)</label>
+            <input type="text" id="projTech" class="form-control font-mono" placeholder="e.g. Node.js, Puppeteer, SQLite" value="Node.js, SQLite, Vanilla JS">
+          </div>
+          <div class="form-group">
+            <label class="form-label font-bn">বিবরণ (বাংলা) *</label>
+            <textarea id="projDescBn" class="form-control font-bn" rows="2" placeholder="প্রজেক্টটি কী কাজ করে..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label font-en">Description (English) *</label>
+            <textarea id="projDescEn" class="form-control font-en" rows="2" placeholder="What this project delivers..." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-action-ghost font-bn" onclick="closeProjectModal()">বাতিল</button>
+          <button type="submit" class="btn-gold-action font-bn">সংরক্ষণ করুন ✦</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Client Modal -->
+  <div class="modal-backdrop" id="clientModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="clientModalTitle">নতুন ক্লায়েন্ট / পার্টনার যোগ করুন</h3>
+        <button class="modal-close-btn" onclick="closeClientModal()">&times;</button>
+      </div>
+      <form id="clientForm" onsubmit="handleSaveClient(event)">
+        <input type="hidden" id="clientId">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label font-bn">ক্লায়েন্ট / প্রতিষ্ঠানের নাম (বাংলা) *</label>
+            <input type="text" id="clientNameBn" class="form-control font-bn" placeholder="যেমন: আল-মদিনা ফ্যাশন..." required>
+          </div>
+          <div class="form-group">
+            <label class="form-label font-en">Client / Business Name (English) *</label>
+            <input type="text" id="clientNameEn" class="form-control font-en" placeholder="e.g. Al-Madina Fashion..." required>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label font-bn">ব্যবসার ধরন (বাংলা)</label>
+              <input type="text" id="clientTypeBn" class="form-control font-bn" placeholder="যেমন: গার্মেন্টস রিটেইল চেইন">
+            </div>
+            <div class="form-group">
+              <label class="form-label font-en">Industry / Type (English)</label>
+              <input type="text" id="clientTypeEn" class="form-control font-en" placeholder="e.g. Retail Fashion Chain">
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label font-bn">লোকেশন / অবস্থান</label>
+              <input type="text" id="clientLocation" class="form-control font-bn" placeholder="যেমন: ঢাকা ও চট্টগ্রাম" value="ঢাকা, বাংলাদেশ">
+            </div>
+            <div class="form-group">
+              <label class="form-label font-en">Tag / Category</label>
+              <input type="text" id="clientTag" class="form-control font-en" placeholder="e.g. ERP Client" value="ERP Client">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label font-bn">ক্লায়েন্টের প্রশংসাপত্র / রিভিউ (বাংলা) *</label>
+            <textarea id="clientQuoteBn" class="form-control font-bn" rows="2" placeholder="সহজ কারবার ও আপনার কাজের ওপর ক্লায়েন্টের মূল্যায়ন..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label font-en">Client Testimonial Quote (English) *</label>
+            <textarea id="clientQuoteEn" class="form-control font-en" rows="2" placeholder="Client feedback in English..." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-action-ghost font-bn" onclick="closeClientModal()">বাতিল</button>
+          <button type="submit" class="btn-gold-action font-bn">সংরক্ষণ করুন ✦</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Floating Toast Pill -->
+  <div class="toast-pill font-bn" id="actionToast">
+    <span id="toastIcon">✅</span>
+    <span id="toastMsg">সফলভাবে সংরক্ষিত হয়েছে!</span>
+  </div>
+
+  <!-- Load CMS Store -->
+  <script src="./cms-store.js"></script>
+
+  <!-- Admin Controller Script -->
+  <script>
+    // ==============================================================
+    // 1. AUTHENTICATION CONTROLLER (Rifat / Rif@t886)
+    // ==============================================================
+    const AUTH_USER = 'Rifat';
+    const AUTH_PASS = 'Rif@t886';
+    const SESSION_KEY = 'rifat_admin_session_auth_v1';
+
+    function checkAuth() {
+      const isAuth = sessionStorage.getItem(SESSION_KEY) === 'true';
+      const gateway = document.getElementById('loginGateway');
+      const app = document.getElementById('adminApp');
+
+      if (isAuth) {
+        gateway.classList.add('hidden');
+        app.classList.add('active');
+        initDashboard();
+      } else {
+        gateway.classList.remove('hidden');
+        app.classList.remove('active');
+      }
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const user = document.getElementById('adminUser').value.trim();
+      const pass = document.getElementById('adminPass').value;
+      const errBox = document.getElementById('loginError');
+
+      if (user === AUTH_USER && pass === AUTH_PASS) {
+        sessionStorage.setItem(SESSION_KEY, 'true');
+        errBox.style.display = 'none';
+        checkAuth();
+        showToast('অভিনন্দন রিফাত ভাই! আপনি সফলভাবে লগইন করেছেন। 👑');
+      } else {
+        errBox.style.display = 'flex';
+        // Shake card
+        const box = document.querySelector('.login-box');
+        box.style.animation = 'none';
+        setTimeout(() => box.style.animation = 'loginCardPop 0.4s ease', 10);
+      }
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem(SESSION_KEY);
+      checkAuth();
+      showToast('লগআউট সম্পন্ন হয়েছে।');
+    }
+
+    function togglePasswordVisibility() {
+      const passInput = document.getElementById('adminPass');
+      if (passInput.type === 'password') {
+        passInput.type = 'text';
+      } else {
+        passInput.type = 'password';
+      }
+    }
+
+    // ==============================================================
+    // 2. DASHBOARD DATA & UI CONTROLLER
+    // ==============================================================
+    function showToast(msg, icon = '✅') {
+      const toast = document.getElementById('actionToast');
+      document.getElementById('toastMsg').textContent = msg;
+      document.getElementById('toastIcon').textContent = icon;
+      toast.style.display = 'inline-flex';
+      setTimeout(() => { toast.style.display = 'none'; }, 3200);
+    }
+
+    function switchAdminTab(tabKey) {
+      document.querySelectorAll('.tab-nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+
+      const targetPane = document.getElementById('pane-' + tabKey);
+      if (targetPane) targetPane.classList.add('active');
+
+      const activeBtn = Array.from(document.querySelectorAll('.tab-nav-btn')).find(b => b.textContent.includes(
+        tabKey === 'posts' ? 'পোস্ট' : 
+        tabKey === 'projects' ? 'প্রজেক্ট' : 
+        tabKey === 'clients' ? 'ক্লায়েন্ট' : 
+        tabKey === 'metrics' ? 'মেট্রিক্স' : 'ব্যাকআপ'
+      ));
+      if (activeBtn) activeBtn.classList.add('active');
+    }
+
+    function initDashboard() {
+      renderPostsList();
+      renderProjectsList();
+      renderClientsList();
+      loadMetricsForm();
+      updateStatNumbers();
+    }
+
+    function updateStatNumbers() {
+      document.getElementById('statPostsCount').textContent = cmsStore.getPosts().length;
+      document.getElementById('statProjectsCount').textContent = cmsStore.getProjects().length;
+      document.getElementById('statClientsCount').textContent = cmsStore.getClients().length;
+    }
+
+    // --- Render Posts ---
+    function renderPostsList() {
+      const container = document.getElementById('postsListContainer');
+      const posts = cmsStore.getPosts();
+      if (!posts.length) {
+        container.innerHTML = '<div style="color: var(--text-muted); padding: 20px;">কোনো পোস্ট পাওয়া যায়নি। নতুন পোস্ট যোগ করুন।</div>';
+        return;
+      }
+
+      container.innerHTML = posts.map(p => `
+        <div class="cms-item-card">
+          <div>
+            <div class="card-meta-row font-en">
+              <span class="category-chip">${p.category || 'Tech'}</span>
+              <span class="date-tag font-bn">${p.date || ''} • ${p.read_time || ''}</span>
+            </div>
+            <h4 class="item-title-bn font-bn">${p.title_bn}</h4>
+            <div class="item-title-en font-en">${p.title_en}</div>
+            <p class="item-desc font-bn">${p.excerpt_bn}</p>
+          </div>
+          <div class="card-actions-row">
+            <button class="btn-item-action font-bn" onclick="editPost('${p.id}')">✏️ এডিট</button>
+            <button class="btn-item-action btn-delete font-bn" onclick="deletePost('${p.id}')">🗑️ মুছুন</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- Render Projects ---
+    function renderProjectsList() {
+      const container = document.getElementById('projectsListContainer');
+      const projects = cmsStore.getProjects();
+      if (!projects.length) {
+        container.innerHTML = '<div style="color: var(--text-muted); padding: 20px;">কোনো প্রজেক্ট পাওয়া যায়নি।</div>';
+        return;
+      }
+
+      container.innerHTML = projects.map(p => `
+        <div class="cms-item-card">
+          <div>
+            <div class="card-meta-row font-en">
+              <span class="category-chip">${p.category || 'System'}</span>
+              <span class="date-tag font-en">${p.badge || 'Active'}</span>
+            </div>
+            <h4 class="item-title-bn font-bn">${p.title_bn}</h4>
+            <div class="item-title-en font-en">${p.title_en} (${p.entity || ''})</div>
+            <p class="item-desc font-bn">${p.desc_bn}</p>
+            <div class="tech-pill-row">
+              ${(p.tech || []).map(t => `<span class="tech-pill">${t}</span>`).join('')}
+            </div>
+          </div>
+          <div class="card-actions-row">
+            ${p.live_url ? `<a href="${p.live_url}" target="_blank" class="btn-item-action font-en">Visit ↗</a>` : ''}
+            <button class="btn-item-action font-bn" onclick="editProject('${p.id}')">✏️ এডিট</button>
+            <button class="btn-item-action btn-delete font-bn" onclick="deleteProject('${p.id}')">🗑️ মুছুন</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- Render Clients ---
+    function renderClientsList() {
+      const container = document.getElementById('clientsListContainer');
+      const clients = cmsStore.getClients();
+      if (!clients.length) {
+        container.innerHTML = '<div style="color: var(--text-muted); padding: 20px;">কোনো ক্লায়েন্ট পাওয়া যায়নি।</div>';
+        return;
+      }
+
+      container.innerHTML = clients.map(c => `
+        <div class="cms-item-card">
+          <div>
+            <div class="card-meta-row font-en">
+              <span class="category-chip">${c.tag || 'Partner'}</span>
+              <span class="date-tag font-bn">${c.location || ''}</span>
+            </div>
+            <h4 class="item-title-bn font-bn">${c.name_bn}</h4>
+            <div class="item-title-en font-en">${c.name_en} &bull; ${c.type_bn || ''}</div>
+            <div class="client-quote-box font-bn">“${c.quote_bn}”</div>
+          </div>
+          <div class="card-actions-row">
+            <button class="btn-item-action font-bn" onclick="editClient('${c.id}')">✏️ এডিট</button>
+            <button class="btn-item-action btn-delete font-bn" onclick="deleteClient('${c.id}')">🗑️ মুছুন</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- Metrics Form ---
+    function loadMetricsForm() {
+      const metrics = cmsStore.getMetrics();
+      document.getElementById('metricExp').value = metrics.exp_val || '10+';
+      document.getElementById('metricMerchants').value = metrics.merchants_val || '500+';
+      document.getElementById('metricUptime').value = metrics.uptime_val || '99.9%';
+      document.getElementById('metricAutomation').value = metrics.automation_val || '100%';
+    }
+
+    function handleSaveMetrics(e) {
+      e.preventDefault();
+      const updated = {
+        exp_val: document.getElementById('metricExp').value.trim(),
+        merchants_val: document.getElementById('metricMerchants').value.trim(),
+        uptime_val: document.getElementById('metricUptime').value.trim(),
+        automation_val: document.getElementById('metricAutomation').value.trim()
+      };
+      cmsStore.saveMetrics(updated);
+      showToast('মেট্রিক্স সফলভাবে আপডেট করা হয়েছে!');
+    }
+
+    // ==============================================================
+    // 3. POST CRUD OPERATIONS
+    // ==============================================================
+    function openPostModal(post = null) {
+      document.getElementById('postForm').reset();
+      document.getElementById('postId').value = post ? post.id : '';
+      document.getElementById('postModalTitle').textContent = post ? 'পোস্ট এডিট করুন' : 'নতুন পোস্ট যোগ করুন';
+
+      if (post) {
+        document.getElementById('postTitleBn').value = post.title_bn || '';
+        document.getElementById('postTitleEn').value = post.title_en || '';
+        document.getElementById('postCategory').value = post.category || '';
+        document.getElementById('postDate').value = post.date || '';
+        document.getElementById('postReadTime').value = post.read_time || '';
+        document.getElementById('postBadge').value = post.badge || '';
+        document.getElementById('postExcerptBn').value = post.excerpt_bn || '';
+        document.getElementById('postExcerptEn').value = post.excerpt_en || '';
+        document.getElementById('postContentBn').value = post.content_bn || '';
+        document.getElementById('postContentEn').value = post.content_en || '';
+      }
+
+      document.getElementById('postModal').classList.add('active');
+    }
+
+    function closePostModal() {
+      document.getElementById('postModal').classList.remove('active');
+    }
+
+    function handleSavePost(e) {
+      e.preventDefault();
+      const post = {
+        id: document.getElementById('postId').value || undefined,
+        title_bn: document.getElementById('postTitleBn').value.trim(),
+        title_en: document.getElementById('postTitleEn').value.trim(),
+        category: document.getElementById('postCategory').value.trim(),
+        date: document.getElementById('postDate').value.trim(),
+        date_en: document.getElementById('postDate').value.trim(),
+        read_time: document.getElementById('postReadTime').value.trim(),
+        read_time_en: document.getElementById('postReadTime').value.trim(),
+        badge: document.getElementById('postBadge').value.trim(),
+        excerpt_bn: document.getElementById('postExcerptBn').value.trim(),
+        excerpt_en: document.getElementById('postExcerptEn').value.trim(),
+        content_bn: document.getElementById('postContentBn').value.trim(),
+        content_en: document.getElementById('postContentEn').value.trim()
+      };
+
+      cmsStore.savePost(post);
+      closePostModal();
+      renderPostsList();
+      updateStatNumbers();
+      showToast('পোস্ট সফলভাবে পাবলিশ করা হয়েছে!');
+    }
+
+    function editPost(id) {
+      const post = cmsStore.getPosts().find(p => p.id === id);
+      if (post) openPostModal(post);
+    }
+
+    function deletePost(id) {
+      if (confirm('আপনি কি নিশ্চিত যে এই পোস্টটি মুছে ফেলতে চান?')) {
+        cmsStore.deletePost(id);
+        renderPostsList();
+        updateStatNumbers();
+        showToast('পোস্টটি মুছে ফেলা হয়েছে।');
+      }
+    }
+
+    // ==============================================================
+    // 4. PROJECT CRUD OPERATIONS
+    // ==============================================================
+    function openProjectModal(proj = null) {
+      document.getElementById('projectForm').reset();
+      document.getElementById('projId').value = proj ? proj.id : '';
+      document.getElementById('projectModalTitle').textContent = proj ? 'প্রজেক্ট এডিট করুন' : 'নতুন প্রজেক্ট যোগ করুন';
+
+      if (proj) {
+        document.getElementById('projTitleBn').value = proj.title_bn || '';
+        document.getElementById('projTitleEn').value = proj.title_en || '';
+        document.getElementById('projEntity').value = proj.entity || '';
+        document.getElementById('projCategory').value = proj.category || '';
+        document.getElementById('projBadge').value = proj.badge || '';
+        document.getElementById('projUrl').value = proj.live_url || '';
+        document.getElementById('projTech').value = (proj.tech || []).join(', ');
+        document.getElementById('projDescBn').value = proj.desc_bn || '';
+        document.getElementById('projDescEn').value = proj.desc_en || '';
+      }
+
+      document.getElementById('projectModal').classList.add('active');
+    }
+
+    function closeProjectModal() {
+      document.getElementById('projectModal').classList.remove('active');
+    }
+
+    function handleSaveProject(e) {
+      e.preventDefault();
+      const techStr = document.getElementById('projTech').value.trim();
+      const techArr = techStr.split(',').map(t => t.trim()).filter(Boolean);
+
+      const proj = {
+        id: document.getElementById('projId').value || undefined,
+        title_bn: document.getElementById('projTitleBn').value.trim(),
+        title_en: document.getElementById('projTitleEn').value.trim(),
+        entity: document.getElementById('projEntity').value.trim(),
+        category: document.getElementById('projCategory').value.trim(),
+        badge: document.getElementById('projBadge').value.trim(),
+        live_url: document.getElementById('projUrl').value.trim(),
+        tech: techArr,
+        desc_bn: document.getElementById('projDescBn').value.trim(),
+        desc_en: document.getElementById('projDescEn').value.trim()
+      };
+
+      cmsStore.saveProject(proj);
+      closeProjectModal();
+      renderProjectsList();
+      updateStatNumbers();
+      showToast('প্রজেক্ট সফলভাবে সংরক্ষিত হয়েছে!');
+    }
+
+    function editProject(id) {
+      const proj = cmsStore.getProjects().find(p => p.id === id);
+      if (proj) openProjectModal(proj);
+    }
+
+    function deleteProject(id) {
+      if (confirm('আপনি কি এই প্রজেক্টটি মুছে ফেলতে চান?')) {
+        cmsStore.deleteProject(id);
+        renderProjectsList();
+        updateStatNumbers();
+        showToast('প্রজেক্ট মুছে ফেলা হয়েছে।');
+      }
+    }
+
+    // ==============================================================
+    // 5. CLIENT CRUD OPERATIONS
+    // ==============================================================
+    function openClientModal(client = null) {
+      document.getElementById('clientForm').reset();
+      document.getElementById('clientId').value = client ? client.id : '';
+      document.getElementById('clientModalTitle').textContent = client ? 'ক্লায়েন্ট এডিট করুন' : 'নতুন ক্লায়েন্ট যোগ করুন';
+
+      if (client) {
+        document.getElementById('clientNameBn').value = client.name_bn || '';
+        document.getElementById('clientNameEn').value = client.name_en || '';
+        document.getElementById('clientTypeBn').value = client.type_bn || '';
+        document.getElementById('clientTypeEn').value = client.type_en || '';
+        document.getElementById('clientLocation').value = client.location || '';
+        document.getElementById('clientTag').value = client.tag || '';
+        document.getElementById('clientQuoteBn').value = client.quote_bn || '';
+        document.getElementById('clientQuoteEn').value = client.quote_en || '';
+      }
+
+      document.getElementById('clientModal').classList.add('active');
+    }
+
+    function closeClientModal() {
+      document.getElementById('clientModal').classList.remove('active');
+    }
+
+    function handleSaveClient(e) {
+      e.preventDefault();
+      const client = {
+        id: document.getElementById('clientId').value || undefined,
+        name_bn: document.getElementById('clientNameBn').value.trim(),
+        name_en: document.getElementById('clientNameEn').value.trim(),
+        type_bn: document.getElementById('clientTypeBn').value.trim(),
+        type_en: document.getElementById('clientTypeEn').value.trim(),
+        location: document.getElementById('clientLocation').value.trim(),
+        tag: document.getElementById('clientTag').value.trim(),
+        quote_bn: document.getElementById('clientQuoteBn').value.trim(),
+        quote_en: document.getElementById('clientQuoteEn').value.trim()
+      };
+
+      cmsStore.saveClient(client);
+      closeClientModal();
+      renderClientsList();
+      updateStatNumbers();
+      showToast('ক্লায়েন্ট সফলভাবে যুক্ত হয়েছে!');
+    }
+
+    function editClient(id) {
+      const client = cmsStore.getClients().find(c => c.id === id);
+      if (client) openClientModal(client);
+    }
+
+    function deleteClient(id) {
+      if (confirm('আপনি কি এই ক্লায়েন্টটি মুছে ফেলতে চান?')) {
+        cmsStore.deleteClient(id);
+        renderClientsList();
+        updateStatNumbers();
+        showToast('ক্লায়েন্ট মুছে ফেলা হয়েছে।');
+      }
+    }
+
+    // ==============================================================
+    // 6. BACKUP & SYNC ENGINE
+    // ==============================================================
+    function exportDataJson() {
+      const data = cmsStore.loadData();
+      const str = JSON.stringify(data, null, 2);
+      const blob = new Blob([str], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const dateStr = new Date().toISOString().split('T')[0];
+      a.href = url;
+      a.download = `rifatuddin_cms_backup_${dateStr}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('ব্যাকআপ JSON ফাইল ডাউনলোড সম্পন্ন হয়েছে!');
+    }
+
+    function handleImportJson(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          if (parsed && (parsed.posts || parsed.projects || parsed.clients)) {
+            cmsStore.saveData(parsed);
+            initDashboard();
+            showToast('ডাটা সফলভাবে রিস্টোর হয়েছে!');
+          } else {
+            alert('অকার্যকর ব্যাকআপ ফাইল।');
+          }
+        } catch (err) {
+          alert('JSON পার্সিং এরর: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function handleResetDefaults() {
+      if (confirm('আপনি কি নিশ্চিত যে সমস্ত ডাটা পুনরায় ডিফল্ট অবস্থায় ফিরিয়ে নিতে চান?')) {
+        cmsStore.resetToDefaults();
+        initDashboard();
+        showToast('ডাটা সফলভাবে ডিফল্ট অবস্থায় রিসেট করা হয়েছে।');
+      }
+    }
+
+    // Auto-check on load
+    document.addEventListener('DOMContentLoaded', checkAuth);
+  </script>
+</body>
+</html>
