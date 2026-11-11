@@ -99,7 +99,7 @@ const DEFAULT_CMS_DATA = {
       desc_bn: "আন্তর্জাতিক টেক্সটাইল বাণিজ্যে মাল্টি-কারেন্সি অ্যাকাউন্টস, ডাবল-এন্ট্রি বুককিপিং, ট্রায়াল ব্যালেন্স ও ব্যাংক রিকনসিলিয়েশন প্ল্যাটফর্ম।",
       desc_en: "Enterprise multi-currency double-entry accounting engine handling trial balance reconciliations, banking statements, and trade compliance across UAE/BD.",
       tech: ["Accounting GL", "Financial Auditing", "Multi-Currency", "Excel Macro"],
-      live_url: "https://www.sohozkarbar.pro.bd/rifat-uddin.html"
+      live_url: "https://familytex-attendance.surge.sh"
     },
     {
       id: "proj-4",
