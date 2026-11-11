@@ -1422,11 +1422,6 @@
           <span class="lang-capsule-pill" data-lang-val="en">EN</span>
         </button>
 
-        <a href="./admin.html" class="admin-pill-btn font-en" title="Executive Admin CMS Portal">
-          <span>🔒</span>
-          <span>Admin</span>
-        </a>
-
         <a href="https://wa.me/8801625914562" target="_blank" rel="noopener" class="cta-wa-btn font-en">
           <span>WhatsApp</span>
         </a>
@@ -1937,9 +1932,6 @@
         </div>
 
         <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
-          <a href="./admin.html" class="admin-pill-btn font-en" style="padding: 6px 14px; font-size: 0.78rem;">
-            <span>🔒</span> Executive CMS Portal
-          </a>
           <span class="font-bn" style="color: var(--text-muted); font-size: 0.82rem;">
             &copy; 2026 Rifat Uddin. All rights reserved &bull; Simple Technology, Smarter Business.
           </span>
@@ -2509,6 +2501,31 @@
         renderDynamicCmsContent(currentAppLang || 'bn');
       });
     }
+
+    // Stealth Admin Navigation Triggers (Triple Click on Brand Logo or Ctrl+Shift+A)
+    let secretLogoClicks = 0;
+    let secretClickResetTimer = null;
+    const brandElement = document.querySelector('.island-brand');
+    if (brandElement) {
+      brandElement.style.cursor = 'pointer';
+      brandElement.setAttribute('title', 'Rifat Uddin Official');
+      brandElement.addEventListener('click', (e) => {
+        secretLogoClicks++;
+        clearTimeout(secretClickResetTimer);
+        secretClickResetTimer = setTimeout(() => { secretLogoClicks = 0; }, 1200);
+        if (secretLogoClicks >= 3) {
+          secretLogoClicks = 0;
+          window.location.href = './admin.html';
+        }
+      });
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+        e.preventDefault();
+        window.location.href = './admin.html';
+      }
+    });
   </script>
 </body>
 </html>

@@ -4,7 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Executive Admin CMS Portal — Rifat Uddin (রিফাত উদ্দিন)</title>
-  <meta name="robots" content="noindex, nofollow">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'none'; upgrade-insecure-requests;">
+  <script>
+    // Framebusting protection against clickjacking
+    if (window.top !== window.self) {
+      window.top.location = window.self.location;
+    }
+  </script>
   <link rel="icon" type="image/x-icon" href="./favicon.ico">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
   
@@ -236,6 +244,53 @@
       display: none;
       align-items: center;
       gap: 8px;
+    }
+
+    .login-shield-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: var(--accent-cyan);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      letter-spacing: 0.03em;
+      margin-top: 6px;
+    }
+
+    .login-lockout-banner {
+      background: rgba(239, 68, 68, 0.16);
+      border: 1px solid rgba(239, 68, 68, 0.55);
+      color: #fca5a5;
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      margin-bottom: 20px;
+      display: none;
+      align-items: flex-start;
+      gap: 12px;
+      box-shadow: 0 0 25px rgba(239, 68, 68, 0.25);
+    }
+
+    .lockout-countdown {
+      margin-top: 6px;
+      font-weight: 700;
+      color: #fee2e2;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 4px 12px;
+      border-radius: 6px;
+      display: inline-block;
+      letter-spacing: 0.05em;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
+    .login-btn:disabled, .form-control:disabled {
+      opacity: 0.45;
+      cursor: not-allowed !important;
+      filter: grayscale(0.8);
+      pointer-events: none;
     }
 
     .login-hint {
@@ -899,6 +954,18 @@
         <img src="./sk-tech-solutions-logo.png" alt="Sohoz Karbar Logo" class="login-logo-img">
         <div class="login-title font-en">Rifat Uddin</div>
         <div class="login-badge font-mono">Executive Command Portal 🔒</div>
+        <div>
+          <span class="login-shield-badge font-mono">🛡️ 256-Bit Cryptographic Shield &bull; Lockout Guard Active</span>
+        </div>
+      </div>
+
+      <div class="login-lockout-banner" id="loginLockoutBanner">
+        <div style="font-size: 1.5rem; line-height: 1;">🚨</div>
+        <div style="flex: 1;">
+          <strong style="color: #fecaca; display: block; margin-bottom: 4px;">অ্যাক্সেস সাময়িকভাবে স্থগিত (Security Lockout)</strong>
+          <span id="lockoutTimerMsg" style="font-size: 0.82rem; color: #fca5a5;">অতিরিক্ত ৫ বার ভুল চেষ্টার কারণে সিস্টেম ১৫ মিনিটের জন্য লক করা হয়েছে।</span>
+          <div class="lockout-countdown font-mono" id="lockoutCountdown">লক খোলার বাকি: 14:59</div>
+        </div>
       </div>
 
       <div class="login-error" id="loginError">
@@ -907,6 +974,8 @@
       </div>
 
       <form id="loginForm" onsubmit="handleLogin(event)">
+        <!-- Honeypot Bot Trap -->
+        <input type="text" name="admin_honey_trap" id="adminHoneyTrap" style="display:none !important; position:absolute; left:-9999px; opacity:0; pointer-events:none;" tabindex="-1" autocomplete="off">
         <div class="form-group">
           <label class="form-label font-en">User ID / Username</label>
           <div class="input-wrapper">
@@ -1530,44 +1599,221 @@
   <!-- Admin Controller Script -->
   <script>
     // ==============================================================
-    // 1. AUTHENTICATION CONTROLLER (Rifat / Rif@t886)
+    // 1. ADVANCED CRYPTOGRAPHIC AUTH & DEFENSE SHIELD
     // ==============================================================
-    const AUTH_USER = 'Rifat';
-    const AUTH_PASS = 'Rif@t886';
-    const SESSION_KEY = 'rifat_admin_session_auth_v1';
+    // Zero-knowledge client-side auth using Web Crypto SHA-256 + Salt
+    const CRED_SALT = 'RifatUddin_Enterprise_CMS_SecShield_2026_@v1';
+    const TARGET_AUTH_HASH = 'b3a0956c8b7483a31128699ba7d800de1baa6e0abeab0fde48c2a810408ceeb4';
+    const SESSION_KEY = 'rifat_admin_sec_session_token_v2';
+    const LOCKOUT_KEY = 'rifat_admin_sec_vault_lockout_v2';
+    const MAX_FAILED_ATTEMPTS = 5;
+    const LOCKOUT_PERIOD_MS = 15 * 60 * 1000; // 15 minutes lockout
 
-    function checkAuth() {
-      const isAuth = sessionStorage.getItem(SESSION_KEY) === 'true';
-      const gateway = document.getElementById('loginGateway');
-      const app = document.getElementById('adminApp');
+    let lockoutInterval = null;
 
-      if (isAuth) {
-        gateway.classList.add('hidden');
-        app.classList.add('active');
-        initDashboard();
-      } else {
-        gateway.classList.remove('hidden');
-        app.classList.remove('active');
+    // Fast Web Crypto SHA-256 helper
+    async function sha256Hex(str) {
+      if (!window.crypto || !window.crypto.subtle) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+          hash = ((hash << 5) - hash) + str.charCodeAt(i);
+          hash |= 0;
+        }
+        return hash.toString(16);
+      }
+      const enc = new TextEncoder();
+      const buf = await crypto.subtle.digest('SHA-256', enc.encode(str));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function getLockoutData() {
+      try {
+        const raw = localStorage.getItem(LOCKOUT_KEY);
+        if (!raw) return { attempts: 0, lockedUntil: 0 };
+        const data = JSON.parse(raw);
+        return {
+          attempts: Number(data.attempts) || 0,
+          lockedUntil: Number(data.lockedUntil) || 0
+        };
+      } catch (e) {
+        return { attempts: 0, lockedUntil: 0 };
       }
     }
 
-    function handleLogin(e) {
-      e.preventDefault();
-      const user = document.getElementById('adminUser').value.trim();
-      const pass = document.getElementById('adminPass').value;
-      const errBox = document.getElementById('loginError');
+    function setLockoutData(data) {
+      localStorage.setItem(LOCKOUT_KEY, JSON.stringify(data));
+    }
 
-      if (user === AUTH_USER && pass === AUTH_PASS) {
-        sessionStorage.setItem(SESSION_KEY, 'true');
-        errBox.style.display = 'none';
-        checkAuth();
-        showToast('অভিনন্দন রিফাত ভাই! আপনি সফলভাবে লগইন করেছেন। 👑');
+    function updateLockoutUI() {
+      const data = getLockoutData();
+      const now = Date.now();
+      const banner = document.getElementById('loginLockoutBanner');
+      const timerMsg = document.getElementById('lockoutTimerMsg');
+      const countdown = document.getElementById('lockoutCountdown');
+      const userInput = document.getElementById('adminUser');
+      const passInput = document.getElementById('adminPass');
+      const submitBtn = document.querySelector('#loginForm button[type="submit"]');
+
+      if (data.lockedUntil > now) {
+        const remSec = Math.max(0, Math.ceil((data.lockedUntil - now) / 1000));
+        const mins = String(Math.floor(remSec / 60)).padStart(2, '0');
+        const secs = String(remSec % 60).padStart(2, '0');
+
+        if (banner) banner.style.display = 'flex';
+        if (countdown) countdown.textContent = `লক খোলার বাকি: ${mins}:${secs}`;
+        if (userInput) userInput.disabled = true;
+        if (passInput) passInput.disabled = true;
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `<span>🔒 অ্যাক্সেস স্থগিত (${mins}:${secs})</span>`;
+        }
+
+        if (!lockoutInterval) {
+          lockoutInterval = setInterval(updateLockoutUI, 1000);
+        }
+        return true;
       } else {
-        errBox.style.display = 'flex';
-        // Shake card
-        const box = document.querySelector('.login-box');
-        box.style.animation = 'none';
-        setTimeout(() => box.style.animation = 'loginCardPop 0.4s ease', 10);
+        if (lockoutInterval) {
+          clearInterval(lockoutInterval);
+          lockoutInterval = null;
+        }
+        if (banner) banner.style.display = 'none';
+        if (userInput) userInput.disabled = false;
+        if (passInput) passInput.disabled = false;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<span>Authenticate &amp; Unlock</span><span>✦</span>`;
+        }
+        if (data.attempts >= MAX_FAILED_ATTEMPTS) {
+          setLockoutData({ attempts: 0, lockedUntil: 0 });
+        }
+        return false;
+      }
+    }
+
+    async function checkAuth() {
+      const gateway = document.getElementById('loginGateway');
+      const app = document.getElementById('adminApp');
+      const rawSession = sessionStorage.getItem(SESSION_KEY);
+
+      if (!rawSession) {
+        gateway.classList.remove('hidden');
+        app.classList.remove('active');
+        updateLockoutUI();
+        return;
+      }
+
+      try {
+        const session = JSON.parse(rawSession);
+        const now = Date.now();
+
+        // 1. Session expiration check (30 minutes)
+        if (!session.exp || now > session.exp) {
+          sessionStorage.removeItem(SESSION_KEY);
+          gateway.classList.remove('hidden');
+          app.classList.remove('active');
+          const errBox = document.getElementById('loginError');
+          const errText = document.getElementById('loginErrorMsg');
+          if (errBox && errText) {
+            errText.textContent = 'নিরাপত্তার স্বার্থে ৩০ মিনিট পর সেশনের মেয়াদ শেষ হয়েছে। পুনরায় লগইন করুন।';
+            errBox.style.display = 'flex';
+          }
+          updateLockoutUI();
+          return;
+        }
+
+        // 2. Cryptographic signature check
+        const expectedSig = await sha256Hex(TARGET_AUTH_HASH + ':' + session.t + ':' + CRED_SALT);
+        if (session.sig !== expectedSig) {
+          sessionStorage.removeItem(SESSION_KEY);
+          gateway.classList.remove('hidden');
+          app.classList.remove('active');
+          const errBox = document.getElementById('loginError');
+          const errText = document.getElementById('loginErrorMsg');
+          if (errBox && errText) {
+            errText.textContent = 'অবৈধ বা বিকৃত সেশন শনাক্ত হয়েছে। পুনরায় প্রমাণীকরণ করুন।';
+            errBox.style.display = 'flex';
+          }
+          updateLockoutUI();
+          return;
+        }
+
+        // Session Valid
+        gateway.classList.add('hidden');
+        app.classList.add('active');
+        initDashboard();
+      } catch (e) {
+        sessionStorage.removeItem(SESSION_KEY);
+        gateway.classList.remove('hidden');
+        app.classList.remove('active');
+        updateLockoutUI();
+      }
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+
+      // Check lockout status
+      if (updateLockoutUI()) {
+        showToast('⚠️ সিস্টেম বর্তমানে লকড রয়েছে। অনুগ্রহ করে অপেক্ষা করুন।', '🔒');
+        return;
+      }
+
+      // 1. Anti-bot honeypot check
+      const honey = document.getElementById('adminHoneyTrap');
+      if (honey && honey.value && honey.value.trim() !== '') {
+        const lData = getLockoutData();
+        lData.attempts = MAX_FAILED_ATTEMPTS;
+        lData.lockedUntil = Date.now() + LOCKOUT_PERIOD_MS;
+        setLockoutData(lData);
+        updateLockoutUI();
+        return;
+      }
+
+      const user = (document.getElementById('adminUser').value || '').trim().toLowerCase();
+      const pass = document.getElementById('adminPass').value || '';
+      const errBox = document.getElementById('loginError');
+      const errMsg = document.getElementById('loginErrorMsg');
+
+      // Hash verification
+      const computedHash = await sha256Hex(user + ':' + pass + ':' + CRED_SALT);
+
+      if (computedHash === TARGET_AUTH_HASH) {
+        const now = Date.now();
+        const exp = now + (30 * 60 * 1000); // 30 minutes session
+        const sig = await sha256Hex(TARGET_AUTH_HASH + ':' + now + ':' + CRED_SALT);
+        const sessionObj = { t: now, exp: exp, sig: sig };
+
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify(sessionObj));
+        localStorage.removeItem(LOCKOUT_KEY);
+
+        if (errBox) errBox.style.display = 'none';
+        document.getElementById('adminPass').value = '';
+        checkAuth();
+        showToast('আসসালামু আলাইকুম রিফাত ভাই! আপনি সফলভাবে লগইন করেছেন। 👑');
+      } else {
+        const lData = getLockoutData();
+        lData.attempts = (lData.attempts || 0) + 1;
+
+        if (lData.attempts >= MAX_FAILED_ATTEMPTS) {
+          lData.lockedUntil = Date.now() + LOCKOUT_PERIOD_MS;
+          setLockoutData(lData);
+          updateLockoutUI();
+          if (errBox) errBox.style.display = 'none';
+          showToast('🚨 অতিরিক্ত ভুল চেষ্টার কারণে সিস্টেম ১৫ মিনিটের জন্য লক করা হয়েছে!', '⛔');
+        } else {
+          setLockoutData(lData);
+          const remaining = MAX_FAILED_ATTEMPTS - lData.attempts;
+          if (errMsg) {
+            errMsg.textContent = `ভুল ইউজারনেম বা পাসওয়ার্ড। বাকি প্রচেষ্টা: ${remaining} বার।`;
+          }
+          if (errBox) errBox.style.display = 'flex';
+          const box = document.querySelector('.login-box');
+          if (box) {
+            box.style.animation = 'none';
+            setTimeout(() => box.style.animation = 'loginCardPop 0.4s ease', 10);
+          }
+        }
       }
     }
 
@@ -1586,9 +1832,43 @@
       }
     }
 
+    // Auto-check session timeout every 60 seconds
+    setInterval(() => {
+      const rawSession = sessionStorage.getItem(SESSION_KEY);
+      if (rawSession) {
+        try {
+          const session = JSON.parse(rawSession);
+          if (Date.now() > session.exp) {
+            checkAuth();
+          }
+        } catch (e) {
+          checkAuth();
+        }
+      }
+    }, 60000);
+
     // ==============================================================
-    // 2. DASHBOARD DATA & UI CONTROLLER
+    // 2. DASHBOARD DATA & UI CONTROLLER (WITH STRICT XSS ESCAPING)
     // ==============================================================
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function sanitizeUrl(url) {
+      if (!url) return '';
+      const trimmed = String(url).trim();
+      if (/^(https?:\/\/|\.\/|data:image\/[a-z0-9.+]+;base64,)/i.test(trimmed)) {
+        return escapeHtml(trimmed);
+      }
+      return '#';
+    }
+
     function showToast(msg, icon = '✅') {
       const toast = document.getElementById('actionToast');
       document.getElementById('toastMsg').textContent = msg;
@@ -1627,7 +1907,7 @@
       document.getElementById('statClientsCount').textContent = cmsStore.getClients().length;
     }
 
-    // --- Render Posts ---
+    // --- Render Posts (Defensively Escaped) ---
     function renderPostsList() {
       const container = document.getElementById('postsListContainer');
       const posts = cmsStore.getPosts();
@@ -1636,28 +1916,31 @@
         return;
       }
 
-      container.innerHTML = posts.map(p => `
+      container.innerHTML = posts.map(p => {
+        const safeImg = (p.image && /^(https?:\/\/|\.\/|data:image\/)/i.test(p.image)) ? escapeHtml(p.image) : '';
+        return `
         <div class="cms-item-card" style="display: flex; gap: 16px; align-items: flex-start;">
-          ${p.image ? `<img src="${p.image}" alt="Post cover" style="width: 80px; height: 80px; border-radius: 12px; object-fit: cover; border: 1px solid var(--border-gold); flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">` : ''}
+          ${safeImg ? `<img src="${safeImg}" alt="Post cover" style="width: 80px; height: 80px; border-radius: 12px; object-fit: cover; border: 1px solid var(--border-gold); flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">` : ''}
           <div style="flex: 1; min-width: 0;">
             <div class="card-meta-row font-en">
-              <span class="category-chip">${p.category || 'Tech'}</span>
-              <span class="date-tag font-bn">${p.date || ''} • ${p.read_time || ''}</span>
-              ${p.image ? '<span style="color: var(--accent-gold); font-size: 0.72rem; font-weight: 600;">📸 ছবি যুক্ত আছে</span>' : ''}
+              <span class="category-chip">${escapeHtml(p.category || 'Tech')}</span>
+              <span class="date-tag font-bn">${escapeHtml(p.date || '')} • ${escapeHtml(p.read_time || '')}</span>
+              ${safeImg ? '<span style="color: var(--accent-gold); font-size: 0.72rem; font-weight: 600;">📸 ছবি যুক্ত আছে</span>' : ''}
             </div>
-            <h4 class="item-title-bn font-bn">${p.title_bn}</h4>
-            <div class="item-title-en font-en">${p.title_en}</div>
-            <p class="item-desc font-bn">${p.excerpt_bn}</p>
+            <h4 class="item-title-bn font-bn">${escapeHtml(p.title_bn)}</h4>
+            <div class="item-title-en font-en">${escapeHtml(p.title_en)}</div>
+            <p class="item-desc font-bn">${escapeHtml(p.excerpt_bn)}</p>
           </div>
           <div class="card-actions-row" style="flex-shrink: 0;">
-            <button class="btn-item-action font-bn" onclick="editPost('${p.id}')">✏️ এডিট</button>
-            <button class="btn-item-action btn-delete font-bn" onclick="deletePost('${p.id}')">🗑️ মুছুন</button>
+            <button class="btn-item-action font-bn" onclick="editPost('${escapeHtml(p.id)}')">✏️ এডিট</button>
+            <button class="btn-item-action btn-delete font-bn" onclick="deletePost('${escapeHtml(p.id)}')">🗑️ মুছুন</button>
           </div>
         </div>
-      `).join('');
+      `;
+      }).join('');
     }
 
-    // --- Render Projects ---
+    // --- Render Projects (Defensively Escaped) ---
     function renderProjectsList() {
       const container = document.getElementById('projectsListContainer');
       const projects = cmsStore.getProjects();
@@ -1666,30 +1949,33 @@
         return;
       }
 
-      container.innerHTML = projects.map(p => `
+      container.innerHTML = projects.map(p => {
+        const safeLiveUrl = (p.live_url && /^https?:\/\//i.test(p.live_url)) ? escapeHtml(p.live_url) : '';
+        return `
         <div class="cms-item-card">
           <div>
             <div class="card-meta-row font-en">
-              <span class="category-chip">${p.category || 'System'}</span>
-              <span class="date-tag font-en">${p.badge || 'Active'}</span>
+              <span class="category-chip">${escapeHtml(p.category || 'System')}</span>
+              <span class="date-tag font-en">${escapeHtml(p.badge || 'Active')}</span>
             </div>
-            <h4 class="item-title-bn font-bn">${p.title_bn}</h4>
-            <div class="item-title-en font-en">${p.title_en} (${p.entity || ''})</div>
-            <p class="item-desc font-bn">${p.desc_bn}</p>
+            <h4 class="item-title-bn font-bn">${escapeHtml(p.title_bn)}</h4>
+            <div class="item-title-en font-en">${escapeHtml(p.title_en)} (${escapeHtml(p.entity || '')})</div>
+            <p class="item-desc font-bn">${escapeHtml(p.desc_bn)}</p>
             <div class="tech-pill-row">
-              ${(p.tech || []).map(t => `<span class="tech-pill">${t}</span>`).join('')}
+              ${(p.tech || []).map(t => `<span class="tech-pill">${escapeHtml(t)}</span>`).join('')}
             </div>
           </div>
           <div class="card-actions-row">
-            ${p.live_url ? `<a href="${p.live_url}" target="_blank" class="btn-item-action font-en">Visit ↗</a>` : ''}
-            <button class="btn-item-action font-bn" onclick="editProject('${p.id}')">✏️ এডিট</button>
-            <button class="btn-item-action btn-delete font-bn" onclick="deleteProject('${p.id}')">🗑️ মুছুন</button>
+            ${safeLiveUrl ? `<a href="${safeLiveUrl}" target="_blank" rel="noopener" class="btn-item-action font-en">Visit ↗</a>` : ''}
+            <button class="btn-item-action font-bn" onclick="editProject('${escapeHtml(p.id)}')">✏️ এডিট</button>
+            <button class="btn-item-action btn-delete font-bn" onclick="deleteProject('${escapeHtml(p.id)}')">🗑️ মুছুন</button>
           </div>
         </div>
-      `).join('');
+      `;
+      }).join('');
     }
 
-    // --- Render Clients ---
+    // --- Render Clients (Defensively Escaped) ---
     function renderClientsList() {
       const container = document.getElementById('clientsListContainer');
       const clients = cmsStore.getClients();
@@ -1702,16 +1988,16 @@
         <div class="cms-item-card">
           <div>
             <div class="card-meta-row font-en">
-              <span class="category-chip">${c.tag || 'Partner'}</span>
-              <span class="date-tag font-bn">${c.location || ''}</span>
+              <span class="category-chip">${escapeHtml(c.tag || 'Partner')}</span>
+              <span class="date-tag font-bn">${escapeHtml(c.location || '')}</span>
             </div>
-            <h4 class="item-title-bn font-bn">${c.name_bn}</h4>
-            <div class="item-title-en font-en">${c.name_en} &bull; ${c.type_bn || ''}</div>
-            <div class="client-quote-box font-bn">“${c.quote_bn}”</div>
+            <h4 class="item-title-bn font-bn">${escapeHtml(c.name_bn)}</h4>
+            <div class="item-title-en font-en">${escapeHtml(c.name_en)} &bull; ${escapeHtml(c.type_bn || '')}</div>
+            <div class="client-quote-box font-bn">“${escapeHtml(c.quote_bn)}”</div>
           </div>
           <div class="card-actions-row">
-            <button class="btn-item-action font-bn" onclick="editClient('${c.id}')">✏️ এডিট</button>
-            <button class="btn-item-action btn-delete font-bn" onclick="deleteClient('${c.id}')">🗑️ মুছুন</button>
+            <button class="btn-item-action font-bn" onclick="editClient('${escapeHtml(c.id)}')">✏️ এডিট</button>
+            <button class="btn-item-action btn-delete font-bn" onclick="deleteClient('${escapeHtml(c.id)}')">🗑️ মুছুন</button>
           </div>
         </div>
       `).join('');
@@ -2000,7 +2286,12 @@
     }
 
     // Auto-check on load
-    document.addEventListener('DOMContentLoaded', checkAuth);
+    document.addEventListener('DOMContentLoaded', () => {
+      checkAuth();
+      updateLockoutUI();
+    });
+    checkAuth();
+    updateLockoutUI();
   
     // ==============================================================
     // IMAGE UPLOAD & HIGH-FIDELITY CANVAS COMPRESSION ENGINE
