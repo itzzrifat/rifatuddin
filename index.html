@@ -252,6 +252,103 @@
     
 
 
+    /* Language Toggle Switch (BN / EN) */
+    .nav-actions-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lang-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(230, 202, 133, 0.06);
+      border: 1px solid var(--border-gold);
+      padding: 7px 14px;
+      border-radius: 9999px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      user-select: none;
+    }
+
+    .lang-toggle-btn:hover {
+      background: rgba(230, 202, 133, 0.16);
+      border-color: var(--accent-gold-light);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(230, 202, 133, 0.28);
+    }
+
+    .lang-globe-icon {
+      font-size: 0.88rem;
+      line-height: 1;
+    }
+
+    .lang-pill-item {
+      color: #94a3b8;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      padding: 1px 2px;
+      border-radius: 4px;
+    }
+
+    .lang-pill-item:hover {
+      color: #fff;
+    }
+
+    .lang-pill-item.active {
+      color: var(--accent-gold-light);
+      font-weight: 800;
+      text-shadow: 0 0 10px rgba(230, 202, 133, 0.7);
+    }
+
+    .lang-pill-divider {
+      color: rgba(255, 255, 255, 0.25);
+      font-weight: 400;
+      margin: 0 1px;
+    }
+
+    @media (max-width: 600px) {
+      .nav-wrapper {
+        padding: 8px 12px;
+      }
+      .nav-brand {
+        gap: 8px;
+      }
+      .brand-logo-img {
+        width: 32px;
+        height: 32px;
+      }
+      .brand-title {
+        font-size: 0.88rem;
+      }
+      .brand-subtitle {
+        display: none;
+      }
+      .nav-actions-group {
+        gap: 6px;
+      }
+      .lang-toggle-btn {
+        padding: 5px 9px;
+        font-size: 0.74rem;
+        gap: 4px;
+      }
+      .lang-globe-icon {
+        font-size: 0.78rem;
+      }
+      .nav-cta-btn {
+        padding: 6px 11px;
+        font-size: 0.76rem;
+        gap: 5px;
+      }
+    }
+
     /* Luxury Frosted Navigation Bar */
     header {
       position: sticky;
@@ -1762,19 +1859,28 @@
       </a>
 
       <ul class="nav-links">
-        <li><a href="#about" class="nav-link">পরিচিতি</a></li>
-        <li><a href="#brands" class="nav-link">সংস্থা ও ব্র্যান্ড</a></li>
-        <li><a href="#erp" class="nav-link">SohozKarbar ERP</a></li>
-        <li><a href="#career" class="nav-link">অভিজ্ঞতা</a></li>
-        <li><a href="#gallery" class="nav-link">গ্যালারি</a></li>
-        <li><a href="#contact" class="nav-link">যোগাযোগ</a></li>
+        <li><a href="#about" class="nav-link" data-i18n="nav_about">পরিচিতি</a></li>
+        <li><a href="#brands" class="nav-link" data-i18n="nav_brands">সংস্থা ও ব্র্যান্ড</a></li>
+        <li><a href="#erp" class="nav-link" data-i18n="nav_erp">SohozKarbar ERP</a></li>
+        <li><a href="#career" class="nav-link" data-i18n="nav_career">অভিজ্ঞতা</a></li>
+        <li><a href="#gallery" class="nav-link" data-i18n="nav_gallery">গ্যালারি</a></li>
+        <li><a href="#contact" class="nav-link" data-i18n="nav_contact">যোগাযোগ</a></li>
       </ul>
 
 
-      <a href="https://wa.me/8801625914562" target="_blank" rel="noopener" class="nav-cta-btn font-en">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-.996-.062-.259-.082-.596-.192-1.018-.375-1.789-.778-2.956-2.582-3.046-2.699-.088-.119-.727-.968-.727-1.848 0-.879.461-1.312.625-1.491.164-.18.358-.224.477-.224.121 0 .24.001.346.006.11.005.257-.042.403.308.148.354.507 1.238.552 1.328.045.089.075.194.015.313-.06.12-.089.194-.179.299-.089.104-.189.233-.27.313-.089.089-.182.186-.078.365.104.179.463.766.994 1.239.684.609 1.26.799 1.439.888.179.089.284.075.389-.045.105-.119.448-.522.567-.701.12-.179.239-.149.403-.089.164.06 1.045.493 1.224.582.179.09.299.134.343.209.045.075.045.433-.099.838z"/></svg>
-        WhatsApp আলাপ
-      </a>
+      <div class="nav-actions-group">
+        <button id="langToggleBtn" class="lang-toggle-btn font-en" aria-label="Toggle Language (BN/EN)" title="Switch Language: বাংলা / English">
+          <span class="lang-globe-icon">🌐</span>
+          <span class="lang-pill-item active" data-lang-val="bn">BN</span>
+          <span class="lang-pill-divider">/</span>
+          <span class="lang-pill-item" data-lang-val="en">EN</span>
+        </button>
+
+        <a href="https://wa.me/8801625914562" target="_blank" rel="noopener" class="nav-cta-btn font-en">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-.996-.062-.259-.082-.596-.192-1.018-.375-1.789-.778-2.956-2.582-3.046-2.699-.088-.119-.727-.968-.727-1.848 0-.879.461-1.312.625-1.491.164-.18.358-.224.477-.224.121 0 .24.001.346.006.11.005.257-.042.403.308.148.354.507 1.238.552 1.328.045.089.075.194.015.313-.06.12-.089.194-.179.299-.089.104-.189.233-.27.313-.089.089-.182.186-.078.365.104.179.463.766.994 1.239.684.609 1.26.799 1.439.888.179.089.284.075.389-.045.105-.119.448-.522.567-.701.12-.179.239-.149.403-.089.164.06 1.045.493 1.224.582.179.09.299.134.343.209.045.075.045.433-.099.838z"/></svg>
+          <span data-i18n="nav_cta">WhatsApp আলাপ</span>
+        </a>
+      </div>
     </div>
   </header>
 
@@ -1791,11 +1897,11 @@
               <span class="chip-text">Operations Leader • Tech Entrepreneur • ERP Architect</span>
             </div>
 
-            <h1 class="hero-headline">
+            <h1 class="hero-headline" data-i18n="hero_headline">
               বাণিজ্যিক দূরদর্শিতা ও আধুনিক প্রযুক্তির মেলবন্ধন— <span class="gold-text-gradient">ব্যবসার নতুন দিগন্ত</span>
             </h1>
 
-            <p class="hero-bio">
+            <p class="hero-bio" data-i18n="hero_bio">
               আমি <strong>রিফাত উদ্দিন (Rifat Uddin)</strong> — প্রতিষ্ঠাতা, <strong>Sohoz Karbar Tech Solutions</strong> এবং ক্রিয়েটর, <strong>SohozKarbar ERP</strong>। আন্তর্জাতিক টেক্সটাইল বাণিজ্যের আর্থিক গভর্নেন্স, মাল্টি-কারেন্সি অ্যাকাউন্টিং এবং দেশীয় রিটেইল ব্যবসার ডিজিটালাইজেশনে দীর্ঘ ১ দশক ধরে নিবেদিত।
             </p>
 
@@ -1838,7 +1944,7 @@
             <div class="hero-actions">
               <a href="https://wa.me/8801625914562" target="_blank" rel="noopener" class="btn-gold-primary font-en">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-.996-.062-.259-.082-.596-.192-1.018-.375-1.789-.778-2.956-2.582-3.046-2.699-.088-.119-.727-.968-.727-1.848 0-.879.461-1.312.625-1.491.164-.18.358-.224.477-.224.121 0 .24.001.346.006.11.005.257-.042.403.308.148.354.507 1.238.552 1.328.045.089.075.194.015.313-.06.12-.089.194-.179.299-.089.104-.189.233-.27.313-.089.089-.182.186-.078.365.104.179.463.766.994 1.239.684.609 1.26.799 1.439.888.179.089.284.075.389-.045.105-.119.448-.522.567-.701.12-.179.239-.149.403-.089.164.06 1.045.493 1.224.582.179.09.299.134.343.209.045.075.045.433-.099.838z"/></svg>
-                সরাসরি WhatsApp-এ আলাপ
+                <span data-i18n="hero_cta_wa">সরাসরি WhatsApp-এ আলাপ</span>
               </a>
 
               <a href="https://scholar.google.com/citations?user=LU2SVIEAAAAJ" target="_blank" rel="noopener" class="btn-glass-secondary font-en" title="Google Scholar Profile">
@@ -1847,11 +1953,11 @@
               </a>
               <a href="#erp" class="btn-glass-secondary font-en">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-                SohozKarbar ERP দেখুন
+                <span data-i18n="hero_cta_erp">SohozKarbar ERP দেখুন</span>
               </a>
 
               <a href="https://www.sohozkarbar.pro.bd/rifat-uddin.html" target="_blank" rel="noopener" class="btn-glass-secondary font-en">
-                অফিসিয়াল প্রোফাইল ↗
+                <span data-i18n="hero_cta_profile">অফিসিয়াল প্রোফাইল ↗</span>
               </a>
             </div>
           </div>
@@ -1898,10 +2004,10 @@
       <div class="container">
         <div class="section-header-centered">
           <span class="section-pill-tag font-en">Corporate Entities & Brands</span>
-          <h2 class="section-main-title">
+          <h2 class="section-main-title" data-i18n="brands_heading">
             প্রাতিষ্ঠানিক নেতৃত্ব ও <span class="gold-text-gradient">অফিসিয়াল ব্র্যান্ডসমূহ</span>
           </h2>
-          <p class="section-desc">
+          <p class="section-desc" data-i18n="brands_sub">
             আন্তর্জাতিক টেক্সটাইল করপোরেট ব্যবস্থাপনা থেকে শুরু করে দেশীয় প্রযুক্তি প্রতিষ্ঠান— প্রতিটি ক্ষেত্রে স্বচ্ছতা, অটোমেশন এবং পেশাদারিত্বের প্রমাণ।
           </p>
         </div>
@@ -1922,7 +2028,7 @@
               <div class="brand-card-role font-en">
                 <span>👑</span> Founder & Product Creator
               </div>
-              <p class="brand-card-description">
+              <p class="brand-card-description" data-i18n="brand1_desc">
                 বাংলাদেশি ব্যবসায়ী ও এসএমই মার্চেন্টদের জন্য ক্লাউড-স্কেল সফটওয়্যার সল্যুশনস, হেডলেস সোশ্যাল মিডিয়া অটোমেশন এবং বিজনেস ইনটেলিজেন্স সমাধান।
               </p>
             </div>
@@ -1946,7 +2052,7 @@
               <div class="brand-card-role font-en">
                 <span>🌐</span> Operations, Accounts & HR Manager
               </div>
-              <p class="brand-card-description">
+              <p class="brand-card-description" data-i18n="brand2_desc">
                 আন্তর্জাতিক টেক্সটাইল ট্রেডিংয়ের মাল্টি-কারেন্সি অ্যাকাউন্টস, ট্রায়াল ব্যালেন্স, জেনারেল লেজার (GL), ব্যাংক রিকনসিলিয়েশন এবং ২০০+ জনবলের এইচআর গভর্নেন্স।
               </p>
             </div>
@@ -1970,7 +2076,7 @@
               <div class="brand-card-role font-en">
                 <span>⚡</span> Creator & Lead Architect
               </div>
-              <p class="brand-card-description">
+              <p class="brand-card-description" data-i18n="brand3_desc">
                 দেশীয় মার্চেন্টদের সম্পূর্ণ চাহিদা পূরণকারী সুপারফাস্ট পিওএস বিলিং, বারকোড স্ক্যানিং, রিয়েল-টাইম স্টক লেজার এবং কাস্টমার ডিউ ট্র্যাকিং ইকোসিস্টেম।
               </p>
             </div>
@@ -2025,23 +2131,23 @@
         <div class="metrics-grid font-en">
           <div class="metric-tile">
             <div class="metric-number gold-text-gradient">10+</div>
-            <div class="metric-label">বছর অভিজ্ঞতা</div>
-            <div class="metric-sub">ফাইন্যান্সিয়াল ডিসিপ্লিন ও অপারেশনস</div>
+            <div class="metric-label" data-i18n="metric1_lbl">বছর অভিজ্ঞতা</div>
+            <div class="metric-sub" data-i18n="metric1_sub">ফাইন্যান্সিয়াল ডিসিপ্লিন ও অপারেশনস</div>
           </div>
           <div class="metric-tile">
             <div class="metric-number gold-text-gradient">500+</div>
-            <div class="metric-label">মার্চেন্ট ও শপ</div>
-            <div class="metric-sub">সফটওয়্যার ও অটোমেশন সুবিধাভোগী</div>
+            <div class="metric-label" data-i18n="metric2_lbl">মার্চেন্ট ও শপ</div>
+            <div class="metric-sub" data-i18n="metric2_sub">সফটওয়্যার ও অটোমেশন সুবিধাভোগী</div>
           </div>
           <div class="metric-tile">
             <div class="metric-number gold-text-gradient">99.9%</div>
-            <div class="metric-label">সিস্টেম আপটাইম</div>
-            <div class="metric-sub">হাই-অ্যাভেইলেবিলিটি এন্টারপ্রাইজ সিস্টেম</div>
+            <div class="metric-label" data-i18n="metric3_lbl">সিস্টেম আপটাইম</div>
+            <div class="metric-sub" data-i18n="metric3_sub">হাই-অ্যাভেইলেবিলিটি এন্টারপ্রাইজ সিস্টেম</div>
           </div>
           <div class="metric-tile">
             <div class="metric-number gold-text-gradient">100%</div>
-            <div class="metric-label">অটোমেশন ইন্টিগ্রেশন</div>
-            <div class="metric-sub">স্মার্ট প্রসেস ও হেডলেস ওয়ার্কফ্লো</div>
+            <div class="metric-label" data-i18n="metric4_lbl">অটোমেশন ইন্টিগ্রেশন</div>
+            <div class="metric-sub" data-i18n="metric4_sub">স্মার্ট প্রসেস ও হেডলেস ওয়ার্কফ্লো</div>
           </div>
         </div>
       </div>
@@ -2052,10 +2158,10 @@
       <div class="container">
         <div class="section-header-centered">
           <span class="section-pill-tag font-en">Flagship ERP Suite</span>
-          <h2 class="section-main-title">
+          <h2 class="section-main-title" data-i18n="erp_heading">
             সহজ কারবার — <span class="gold-text-gradient">বিজনেসের পূর্ণাঙ্গ ডিজিটাল ইকোসিস্টেম</span>
           </h2>
-          <p class="section-desc">
+          <p class="section-desc" data-i18n="erp_sub">
             প্রতিদিনের জটিল হিসাব ও কাস্টমার বাকি খাতাকে এক নিমিষে নিয়ন্ত্রণ করার জন্য ডিজাইন করা আধুনিক ইআরপি প্ল্যাটফর্ম।
           </p>
         </div>
@@ -2075,16 +2181,16 @@
 
             <!-- Tab Buttons -->
             <div class="erp-tab-nav" id="erpTabNav">
-              <button class="erp-tab-btn active" data-tab="pos">
+              <button class="erp-tab-btn active" data-tab="pos" data-i18n="tab_pos_btn">
                 <span>🧾</span> পিওএস বিলিং
               </button>
-              <button class="erp-tab-btn" data-tab="inventory">
+              <button class="erp-tab-btn" data-tab="inventory" data-i18n="tab_inv_btn">
                 <span>📦</span> ইনভেন্টরি
               </button>
-              <button class="erp-tab-btn" data-tab="accounting">
+              <button class="erp-tab-btn" data-tab="accounting" data-i18n="tab_acc_btn">
                 <span>📊</span> লেজার ও ব্যাংক
               </button>
-              <button class="erp-tab-btn" data-tab="hr">
+              <button class="erp-tab-btn" data-tab="hr" data-i18n="tab_hr_btn">
                 <span>👥</span> এইচআর ও স্টাফ
               </button>
             </div>
@@ -2114,10 +2220,10 @@
               </ul>
 
               <div style="display: flex; gap: 14px; margin-top: 10px;">
-                <a href="https://www.sohozkarbar.pro.bd" target="_blank" rel="noopener" class="btn-gold-primary font-en" style="font-size: 0.9rem; padding: 12px 22px;">
+                <a href="https://www.sohozkarbar.pro.bd" target="_blank" rel="noopener" class="btn-gold-primary font-en" style="font-size: 0.9rem; padding: 12px 22px;" data-i18n="erp_site_btn">
                   অফিসিয়াল সাইট দেখুন ↗
                 </a>
-                <a href="https://wa.me/8801625914562?text=I%20want%20a%20demo%20of%20SohozKarbar%20ERP" target="_blank" rel="noopener" class="btn-glass-secondary font-en" style="font-size: 0.9rem; padding: 12px 22px;">
+                <a href="https://wa.me/8801625914562?text=I%20want%20a%20demo%20of%20SohozKarbar%20ERP" target="_blank" rel="noopener" class="btn-glass-secondary font-en" style="font-size: 0.9rem; padding: 12px 22px;" data-i18n="erp_demo_btn">
                   লাইভ ডেমো রিকোয়েস্ট
                 </a>
               </div>
@@ -2139,7 +2245,7 @@
           <div class="research-header-row">
             <div>
               <span class="section-pill-tag font-en">Academic Research &amp; Whitepaper</span>
-              <h2 class="section-main-title">
+              <h2 class="section-main-title" data-i18n="research_heading">
                 সফটওয়্যার আর্কিটেকচার ও <span class="gold-text-gradient">গবেষণাপত্র</span>
               </h2>
             </div>
@@ -2157,7 +2263,7 @@
             <p class="whitepaper-meta font-en">
               <strong>Author:</strong> Rifat Uddin &bull; <strong>Affiliation:</strong> Sohoz Karbar Tech Solutions &bull; <strong>Indexing:</strong> Google Scholar (ID: LU2SVIEAAAAJ)
             </p>
-            <p class="whitepaper-summary">
+            <p class="whitepaper-summary" data-i18n="research_desc">
               উন্নয়নশীল দেশের ক্ষুদ্র ও মাঝারি বাণিজ্যের জন্য তৈরি SohozKarbar ERP-এর সিস্টেম আর্কিটেকচার, ডাবল-এন্ট্রি লেজার সিঙ্ক্রোনাইজেশন অ্যালগরিদম এবং বাস্তব পারফরম্যান্স মেট্রিক্স বিশ্লেষণ নিয়ে রিফাত উদ্দিনের প্রাতিষ্ঠানিক টেকনিক্যাল গবেষণাপত্র।
             </p>
 
@@ -2181,10 +2287,10 @@
       <div class="container">
         <div class="section-header-centered">
           <span class="section-pill-tag font-en">Career Milestones</span>
-          <h2 class="section-main-title">
+          <h2 class="section-main-title" data-i18n="career_heading">
             পেশাগত অভিজ্ঞতা ও <span class="gold-text-gradient">নেতৃত্বের পথচলা</span>
           </h2>
-          <p class="section-desc">
+          <p class="section-desc" data-i18n="career_sub">
             অ্যাকাউন্টিং ও করপোরেট অপারেশন্সের বাস্তব অভিজ্ঞতা থেকে শুরু করে দেশীয় প্রযুক্তি বিপ্লব।
           </p>
         </div>
@@ -2196,7 +2302,7 @@
             <div class="timeline-content-card">
               <div class="timeline-year-chip font-en">2024 — বর্তমান</div>
               <h3 class="timeline-role-title">Founder & Chief Product Creator — Sohoz Karbar Tech Solutions</h3>
-              <p class="timeline-desc">
+              <p class="timeline-desc" data-i18n="timeline_c1_desc">
                 দেশীয় ক্ষুদ্র ও মাঝারি মার্চেন্টদের জন্য ক্লাউড-রেডি POS, ইনভেন্টরি ও স্বত্বাধিকার বুককিপিং সফটওয়্যার ডেভেলপমেন্টের সাথে Puppeteer ও Node.js-চালিত হেডলেস সোশ্যাল মার্কেটিং ইঞ্জিন পরিচালনা।
               </p>
             </div>
@@ -2208,7 +2314,7 @@
             <div class="timeline-content-card">
               <div class="timeline-year-chip font-en">2020 — বর্তমান</div>
               <h3 class="timeline-role-title">Operations, Accounts & HR Manager — Family Tex Fabrics Fzco (UAE/BD)</h3>
-              <p class="timeline-desc">
+              <p class="timeline-desc" data-i18n="timeline_c2_desc">
                 আন্তর্জাতিক টেক্সটাইল বাণিজ্যে মাল্টি-কারেন্সি বুককিপিং, জেনারেল লেজার (GL), ট্রায়াল ব্যালেন্স, ব্যাংক রিকনসিলিয়েশন ও ২০০+ কর্মীর এইচআর কমপ্লায়েন্সের সার্বিক নেতৃত্ব।
               </p>
             </div>
@@ -2220,7 +2326,7 @@
             <div class="timeline-content-card">
               <div class="timeline-year-chip font-en">2018 — 2024</div>
               <h3 class="timeline-role-title">ERP Architect & Lead Developer — SohozKarbar ERP</h3>
-              <p class="timeline-desc">
+              <p class="timeline-desc" data-i18n="timeline_c3_desc">
                 বাস্তব মার্চেন্টদের কাজের ধরন অনুযায়ী সম্পূর্ণ নিজস্ব আর্কিটেকচারে POS বিলিং, রিয়েল-টাইম স্টক আপডেট ও কাস্টমার লেজার ট্র্যাকিং প্ল্যাটফর্মের অ্যান্ড-টু-অ্যান্ড নির্মাণ।
               </p>
             </div>
@@ -2230,9 +2336,9 @@
           <div class="timeline-node">
             <div class="timeline-dot"></div>
             <div class="timeline-content-card">
-              <div class="timeline-year-chip font-en">1996 — প্রারম্ভিক প্রেরণা</div>
-              <h3 class="timeline-role-title">শিকড় ও মূলাধার — নবীনগর, ব্রাহ্মণবাড়িয়া</h3>
-              <p class="timeline-desc">
+              <div class="timeline-year-chip font-en" data-i18n="timeline_c4_year">1996 — প্রারম্ভিক প্রেরণা</div>
+              <h3 class="timeline-role-title" data-i18n="timeline_c4_title">শিকড় ও মূলাধার — নবীনগর, ব্রাহ্মণবাড়িয়া</h3>
+              <p class="timeline-desc" data-i18n="timeline_c4_desc">
                 সেপ্টেম্বর ১৯৯৬ সালে ব্রাহ্মণবাড়িয়ার নবীনগরে জন্ম। সততা, সময়ানুবর্তিতা এবং কঠিন শৃঙ্খলাকে পুঁজি করে অ্যাকাউন্টিং ও সফটওয়্যার প্রযুক্তির শীর্ষ মেলবন্ধন অন্বেষণ।
               </p>
             </div>
@@ -2246,10 +2352,10 @@
       <div class="container">
         <div class="section-header-centered">
           <span class="section-pill-tag font-en">Visual Moments</span>
-          <h2 class="section-main-title">
+          <h2 class="section-main-title" data-i18n="gallery_heading">
             নেতৃত্ব ও কর্মক্ষেত্রের <span class="gold-text-gradient">মুহূর্তসমূহ</span>
           </h2>
-          <p class="section-desc">
+          <p class="section-desc" data-i18n="gallery_sub">
             দুবাই এক্সিকিউটিভ অফিস, প্রতিষ্ঠাতা ওয়ার্কস্পেস ও করপোরেট মিটিংয়ের নির্বাচিত স্থিরচিত্র।
           </p>
         </div>
@@ -2292,10 +2398,10 @@
     <section class="quote-section reveal-on-scroll">
       <div class="container">
         <div class="quote-box">
-          <p class="quote-text font-bn">
+          <p class="quote-text font-bn" data-i18n="quote_text">
             “ভালো প্রযুক্তি মানুষের কাজের পথে কোনো দেয়াল তৈরি করে না; বরং দৈনন্দিন জটিলতাকে দূর করে মানুষকে স্বস্তি দেয়।”
           </p>
-          <div class="quote-author font-en">— RIFAT UDDIN (রিফাত উদ্দিন)</div>
+          <div class="quote-author font-en" data-i18n="quote_author">— RIFAT UDDIN (রিফাত উদ্দিন)</div>
         </div>
       </div>
     </section>
@@ -2305,8 +2411,8 @@
       <div class="container">
         <div class="contact-card-box">
           <span class="section-pill-tag font-en">Direct Connect</span>
-          <h2>সরাসরি যোগাযোগ ও নতুন সম্ভাবনা</h2>
-          <p>
+          <h2 data-i18n="contact_heading">সরাসরি যোগাযোগ ও নতুন সম্ভাবনা</h2>
+          <p data-i18n="contact_sub">
             যেকোনো ব্যবসায়িক পরামর্শ, অটোমেশন প্রজেক্ট কিংবা টেকনিক্যাল আলোচনার জন্য সরাসরি যোগাযোগ করতে পারেন।
           </p>
 
@@ -2587,10 +2693,10 @@
       });
     })();
 
-    // 3. Interactive ERP Tab Switcher
-    (function initErpTabs() {
-      const tabs = {
-        pos: {
+    // 3. Interactive ERP Tab Switcher (Bilingual BN & EN)
+    const erpDataset = {
+      pos: {
+        bn: {
           title: 'SohozKarbar ERP — POS Billing Module',
           desc: 'দোকান ও বাণিজ্যিক প্রতিষ্ঠানের তাৎক্ষণিক ক্যাশ/ক্রেডিট বিলিং, বারকোড স্ক্যানিং এবং কাস্টমার ডিউ ট্র্যাকিং সমৃদ্ধ ক্লাউড পিওএস।',
           screen: './demo-pos-app.jpg',
@@ -2600,7 +2706,19 @@
             'থার্মাল ও সাধারণ এ৪ প্রিন্টার সাপোর্ট'
           ]
         },
-        inventory: {
+        en: {
+          title: 'SohozKarbar ERP — POS Billing Module',
+          desc: 'Cloud-ready POS with instant cash/credit sales, high-speed barcode scanning, and automated customer credit tracking.',
+          screen: './demo-pos-app.jpg',
+          features: [
+            'Ultra-fast instant POS checkout and receipt printing',
+            'Customer credit ledger & automated SMS payment reminders',
+            'Thermal receipt & standard A4 invoice printer support'
+          ]
+        }
+      },
+      inventory: {
+        bn: {
           title: 'SohozKarbar ERP — Real-Time Inventory Control',
           desc: 'প্রতিটি পণ্যের ব্যাচ, এক্সপায়ারি ও রিয়েল-টাইম স্টক আপডেট। স্টক সংকট এড়াতে স্বয়ংক্রিয় রি-অর্ডার নোটিফিকেশন।',
           screen: './demo-inventory-app.jpg',
@@ -2610,7 +2728,19 @@
             'সাপ্লায়ার পারচেজ বিল ও ইনভেন্টরি ভ্যালুয়েশন'
           ]
         },
-        accounting: {
+        en: {
+          title: 'SohozKarbar ERP — Real-Time Inventory Control',
+          desc: 'Item batching, expiration tracking, and real-time inventory updates with automated reorder threshold triggers.',
+          screen: './demo-inventory-app.jpg',
+          features: [
+            'Live stock tracking & smart low-inventory alert algorithms',
+            'Multi-warehouse stock transfer & full audit trail logs',
+            'Supplier purchase orders & inventory valuation metrics'
+          ]
+        }
+      },
+      accounting: {
+        bn: {
           title: 'SohozKarbar ERP — Accounting GL & Bank Reconciliation',
           desc: 'ডাবল-এন্ট্রি বুককিপিং, চার্ট অব অ্যাকাউন্টস, ক্যাশ বুক, ট্রায়াল ব্যালেন্স ও ব্যাংক রিকনসিলিয়েশন স্বয়ংক্রিয় প্রসেস।',
           screen: './demo-accounting-app.jpg',
@@ -2620,7 +2750,19 @@
             'দৈনিক লাভ-ক্ষতি (P&L) ও ক্যাশ ফ্লো স্টেটমেন্ট'
           ]
         },
-        hr: {
+        en: {
+          title: 'SohozKarbar ERP — Accounting GL & Bank Reconciliation',
+          desc: 'Comprehensive financial suite featuring double-entry bookkeeping, chart of accounts, trial balance, and banking reconciliation.',
+          screen: './demo-accounting-app.jpg',
+          features: [
+            'General Ledger (GL) & automated balance sheet compilation',
+            'Bank statements & online transaction auto-reconciliation',
+            'Real-time P&L profit/loss & cash flow statement generation'
+          ]
+        }
+      },
+      hr: {
+        bn: {
           title: 'SohozKarbar ERP — HR & Staff Governance',
           desc: 'স্টাফদের দৈনিক উপস্থিতি, ছুটি, ওভারটাইম হিসাব এবং ডিজিটাল সেলারি শিট জেনারেশন সিস্টেম।',
           screen: './demo-hr-app.jpg',
@@ -2629,36 +2771,228 @@
             'স্বয়ংক্রিয় পে-রোল ও কমিশন ক্যালকুলেটর',
             'রোল-বেজড ইউজার পারমিশন ও সিকিউরিটি কন্ট্রোল'
           ]
+        },
+        en: {
+          title: 'SohozKarbar ERP — HR & Staff Governance',
+          desc: 'Complete workforce management handling daily attendance, leave logs, overtime tracking, and digital payroll generation.',
+          screen: './demo-hr-app.jpg',
+          features: [
+            'Digital staff attendance & biometric device integration',
+            'Automated payroll generator & sales commission calculator',
+            'Role-based granular access control & enterprise security'
+          ]
         }
-      };
+      }
+    };
 
-      const navButtons = document.querySelectorAll('.erp-tab-btn');
+    let currentActiveTab = 'pos';
+    let currentAppLang = 'bn';
+
+    function renderErpTab(tabKey, lang) {
+      const dataGroup = erpDataset[tabKey];
+      if (!dataGroup) return;
+      const data = dataGroup[lang] || dataGroup['bn'];
       const titleEl = document.getElementById('tabTitle');
       const descEl = document.getElementById('tabDesc');
       const screenEl = document.getElementById('tabScreenImg');
       const featuresEl = document.getElementById('tabFeatures');
 
+      if (titleEl) titleEl.textContent = data.title;
+      if (descEl) descEl.textContent = data.desc;
+      if (screenEl) screenEl.src = data.screen;
+      if (featuresEl) {
+        featuresEl.innerHTML = data.features.map(f => `
+          <li class="erp-feature-item">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <span>${f}</span>
+          </li>
+        `).join('');
+      }
+    }
+
+    (function initErpTabs() {
+      const navButtons = document.querySelectorAll('.erp-tab-btn');
       navButtons.forEach(btn => {
         btn.addEventListener('click', () => {
           navButtons.forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
-
-          const tabKey = btn.dataset.tab;
-          const data = tabs[tabKey];
-          if (!data) return;
-
-          titleEl.textContent = data.title;
-          descEl.textContent = data.desc;
-          screenEl.src = data.screen;
-
-          featuresEl.innerHTML = data.features.map(f => `
-            <li class="erp-feature-item">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-              <span>${f}</span>
-            </li>
-          `).join('');
+          currentActiveTab = btn.dataset.tab;
+          renderErpTab(currentActiveTab, currentAppLang);
         });
       });
+    })();
+
+    // 4. Executive Bilingual i18n Translation Engine (BN / EN)
+    const i18nDict = {
+      bn: {
+        nav_about: 'পরিচিতি',
+        nav_brands: 'সংস্থা ও ব্র্যান্ড',
+        nav_erp: 'SohozKarbar ERP',
+        nav_career: 'অভিজ্ঞতা',
+        nav_gallery: 'গ্যালারি',
+        nav_contact: 'যোগাযোগ',
+        nav_cta: 'WhatsApp আলাপ',
+
+        hero_headline: 'বাণিজ্যিক দূরদর্শিতা ও আধুনিক প্রযুক্তির মেলবন্ধন— <span class="gold-text-gradient">ব্যবসার নতুন দিগন্ত</span>',
+        hero_bio: 'আমি <strong>রিফাত উদ্দিন (Rifat Uddin)</strong> — প্রতিষ্ঠাতা, <strong>Sohoz Karbar Tech Solutions</strong> এবং ক্রিয়েটর, <strong>SohozKarbar ERP</strong>। আন্তর্জাতিক টেক্সটাইল বাণিজ্যের আর্থিক গভর্নেন্স, মাল্টি-কারেন্সি অ্যাকাউন্টিং এবং দেশীয় রিটেইল ব্যবসার ডিজিটালাইজেশনে দীর্ঘ ১ দশক ধরে নিবেদিত।',
+        hero_cta_wa: 'সরাসরি WhatsApp-এ আলাপ',
+        hero_cta_erp: 'SohozKarbar ERP দেখুন',
+        hero_cta_profile: 'অফিসিয়াল প্রোফাইল ↗',
+
+        brands_heading: 'প্রাতিষ্ঠানিক নেতৃত্ব ও <span class="gold-text-gradient">অফিসিয়াল ব্র্যান্ডসমূহ</span>',
+        brands_sub: 'আন্তর্জাতিক টেক্সটাইল করপোরেট ব্যবস্থাপনা থেকে শুরু করে দেশীয় প্রযুক্তি প্রতিষ্ঠান— প্রতিটি ক্ষেত্রে স্বচ্ছতা, অটোমেশন এবং পেশাদারিত্বের প্রমাণ।',
+        brand1_desc: 'বাংলাদেশি ব্যবসায়ী ও এসএমই মার্চেন্টদের জন্য ক্লাউড-স্কেল সফটওয়্যার সল্যুশনস, হেডলেস সোশ্যাল মিডিয়া অটোমেশন এবং বিজনেস ইনটেলিজেন্স সমাধান।',
+        brand2_desc: 'আন্তর্জাতিক টেক্সটাইল ট্রেডিংয়ের মাল্টি-কারেন্সি অ্যাকাউন্টস, ট্রায়াল ব্যালেন্স, জেনারেল লেজার (GL), ব্যাংক রিকনসিলিয়েশন এবং ২০০+ জনবলের এইচআর গভর্নেন্স।',
+        brand3_desc: 'দেশীয় মার্চেন্টদের সম্পূর্ণ চাহিদা পূরণকারী সুপারফাস্ট পিওএস বিলিং, বারকোড স্ক্যানিং, রিয়েল-টাইম স্টক লেজার এবং কাস্টমার ডিউ ট্র্যাকিং ইকোসিস্টেম।',
+
+        metric1_lbl: 'বছর অভিজ্ঞতা',
+        metric1_sub: 'ফাইন্যান্সিয়াল ডিসিপ্লিন ও অপারেশনস',
+        metric2_lbl: 'মার্চেন্ট ও শপ',
+        metric2_sub: 'সফটওয়্যার ও অটোমেশন সুবিধাভোগী',
+        metric3_lbl: 'সিস্টেম আপটাইম',
+        metric3_sub: 'হাই-অ্যাভেইলেবিলিটি এন্টারপ্রাইজ সিস্টেম',
+        metric4_lbl: 'অটোমেশন ইন্টিগ্রেশন',
+        metric4_sub: 'স্মার্ট প্রসেস ও হেডলেস ওয়ার্কফ্লো',
+
+        erp_heading: 'সহজ কারবার — <span class="gold-text-gradient">বিজনেসের পূর্ণাঙ্গ ডিজিটাল ইকোসিস্টেম</span>',
+        erp_sub: 'প্রতিদিনের জটিল হিসাব ও কাস্টমার বাকি খাতাকে এক নিমিষে নিয়ন্ত্রণ করার জন্য ডিজাইন করা আধুনিক ইআরপি প্ল্যাটফর্ম।',
+        tab_pos_btn: '<span>🧾</span> পিওএস বিলিং',
+        tab_inv_btn: '<span>📦</span> ইনভেন্টরি',
+        tab_acc_btn: '<span>📊</span> লেজার ও ব্যাংক',
+        tab_hr_btn: '<span>👥</span> এইচআর ও স্টাফ',
+        erp_site_btn: 'অফিসিয়াল সাইট দেখুন ↗',
+        erp_demo_btn: 'লাইভ ডেমো রিকোয়েস্ট',
+
+        research_heading: 'সফটওয়্যার আর্কিটেকচার ও <span class="gold-text-gradient">গবেষণাপত্র</span>',
+        research_desc: 'উন্নয়নশীল দেশের ক্ষুদ্র ও মাঝারি বাণিজ্যের জন্য তৈরি SohozKarbar ERP-এর সিস্টেম আর্কিটেকচার, ডাবল-এন্ট্রি লেজার সিঙ্ক্রোনাইজেশন অ্যালগরিদম এবং বাস্তব পারফরম্যান্স মেট্রিক্স বিশ্লেষণ নিয়ে রিফাত উদ্দিনের প্রাতিষ্ঠানিক টেকনিক্যাল গবেষণাপত্র।',
+
+        career_heading: 'পেশাগত অভিজ্ঞতা ও <span class="gold-text-gradient">নেতৃত্বের পথচলা</span>',
+        career_sub: 'অ্যাকাউন্টিং ও করপোরেট অপারেশন্সের বাস্তব অভিজ্ঞতা থেকে শুরু করে দেশীয় প্রযুক্তি বিপ্লব।',
+        timeline_c1_desc: 'দেশীয় ক্ষুদ্র ও মাঝারি মার্চেন্টদের জন্য ক্লাউড-রেডি POS, ইনভেন্টরি ও স্বত্বাধিকার বুককিপিং সফটওয়্যার ডেভেলপমেন্টের সাথে Puppeteer ও Node.js-চালিত হেডলেস সোশ্যাল মার্কেটিং ইঞ্জিন পরিচালনা।',
+        timeline_c2_desc: 'আন্তর্জাতিক টেক্সটাইল বাণিজ্যে মাল্টি-কারেন্সি বুককিপিং, জেনারেল লেজার (GL), ট্রায়াল ব্যালেন্স, ব্যাংক রিকনসিলিয়েশন ও ২০০+ কর্মীর এইচআর কমপ্লায়েন্সের সার্বিক নেতৃত্ব।',
+        timeline_c3_desc: 'বাস্তব মার্চেন্টদের কাজের ধরন অনুযায়ী সম্পূর্ণ নিজস্ব আর্কিটেকচারে POS বিলিং, রিয়েল-টাইম স্টক আপডেট ও কাস্টমার লেজার ট্র্যাকিং প্ল্যাটফর্মের অ্যান্ড-টু-অ্যান্ড নির্মাণ।',
+        timeline_c4_year: '1996 — প্রারম্ভিক প্রেরণা',
+        timeline_c4_title: 'শিকড় ও মূলাধার — নবীনগর, ব্রাহ্মণবাড়িয়া',
+        timeline_c4_desc: 'সেপ্টেম্বর ১৯৯৬ সালে ব্রাহ্মণবাড়িয়ার নবীনগরে জন্ম। সততা, সময়ানুবর্তিতা এবং কঠিন শৃঙ্খলাকে পুঁজি করে অ্যাকাউন্টিং ও সফটওয়্যার প্রযুক্তির শীর্ষ মেলবন্ধন অন্বেষণ।',
+
+        gallery_heading: 'নেতৃত্ব ও কর্মক্ষেত্রের <span class="gold-text-gradient">মুহূর্তসমূহ</span>',
+        gallery_sub: 'দুবাই এক্সিকিউটিভ অফিস, প্রতিষ্ঠাতা ওয়ার্কস্পেস ও করপোরেট মিটিংয়ের নির্বাচিত স্থিরচিত্র।',
+
+        quote_text: '“ভালো প্রযুক্তি মানুষের কাজের পথে কোনো দেয়াল তৈরি করে না; বরং দৈনন্দিন জটিলতাকে দূর করে মানুষকে স্বস্তি দেয়।”',
+        quote_author: '— RIFAT UDDIN (রিফাত উদ্দিন)',
+
+        contact_heading: 'সরাসরি যোগাযোগ ও নতুন সম্ভাবনা',
+        contact_sub: 'যেকোনো ব্যবসায়িক পরামর্শ, অটোমেশন প্রজেক্ট কিংবা টেকনিক্যাল আলোচনার জন্য সরাসরি যোগাযোগ করতে পারেন।'
+      },
+      en: {
+        nav_about: 'About',
+        nav_brands: 'Ventures',
+        nav_erp: 'SohozKarbar ERP',
+        nav_career: 'Experience',
+        nav_gallery: 'Gallery',
+        nav_contact: 'Contact',
+        nav_cta: 'WhatsApp Chat',
+
+        hero_headline: 'Bridging Commercial Vision & Modern Technology — <span class="gold-text-gradient">The Future of Business</span>',
+        hero_bio: 'I am <strong>Rifat Uddin</strong> — Founder of <strong>Sohoz Karbar Tech Solutions</strong> and Creator of <strong>SohozKarbar ERP</strong>. Dedicated for nearly a decade to international textile financial governance, multi-currency corporate accounting, and retail digitalization in Bangladesh.',
+        hero_cta_wa: 'Chat on WhatsApp',
+        hero_cta_erp: 'Explore SohozKarbar ERP',
+        hero_cta_profile: 'Official Profile ↗',
+
+        brands_heading: 'Institutional Leadership & <span class="gold-text-gradient">Official Brands</span>',
+        brands_sub: 'From cross-border textile corporate governance to pioneering software engineering — delivering unmatched transparency, automation, and enterprise precision.',
+        brand1_desc: 'Cloud-scale software solutions, headless social media automation engines, and business intelligence crafted for Bangladeshi merchants and SMEs.',
+        brand2_desc: 'Overseeing multi-currency accounting, trial balance, general ledger (GL), bank reconciliation, and HR governance for 200+ employees in global textile commerce.',
+        brand3_desc: 'Superfast POS billing, barcode scanning, real-time inventory ledger, and automated customer credit tracking ecosystem built for merchants.',
+
+        metric1_lbl: 'Years Experience',
+        metric1_sub: 'Financial Governance & Operations',
+        metric2_lbl: 'Active Merchants',
+        metric2_sub: 'Software & Automation Users',
+        metric3_lbl: 'System Uptime',
+        metric3_sub: 'High-Availability Enterprise Stack',
+        metric4_lbl: 'Automation Flows',
+        metric4_sub: 'Smart RPA & Headless Workflows',
+
+        erp_heading: 'SohozKarbar — <span class="gold-text-gradient">Complete Business Digital Ecosystem</span>',
+        erp_sub: 'A next-generation enterprise platform engineered to streamline bookkeeping, inventory, and customer credit ledger with zero friction.',
+        tab_pos_btn: '<span>🧾</span> POS Billing',
+        tab_inv_btn: '<span>📦</span> Inventory',
+        tab_acc_btn: '<span>📊</span> Ledger & Accounts',
+        tab_hr_btn: '<span>👥</span> HR & Payroll',
+        erp_site_btn: 'Visit Official Site ↗',
+        erp_demo_btn: 'Request Live Demo',
+
+        research_heading: 'Software Architecture & <span class="gold-text-gradient">Research Paper</span>',
+        research_desc: 'Official technical whitepaper by Rifat Uddin analyzing the distributed system architecture, double-entry ledger sync algorithms, and real-world performance benchmarks of SohozKarbar ERP for emerging market SMEs.',
+
+        career_heading: 'Professional Career & <span class="gold-text-gradient">Leadership Journey</span>',
+        career_sub: 'From corporate finance & cross-border supply chains to leading homegrown software innovation.',
+        timeline_c1_desc: 'Spearheading cloud-ready POS, inventory, and proprietary bookkeeping software alongside Puppeteer & Node.js headless social media growth automation.',
+        timeline_c2_desc: 'Directing multi-currency corporate accounting, general ledger (GL), trial balance, banking reconciliation, and comprehensive HR compliance for 200+ personnel.',
+        timeline_c3_desc: 'Architecting end-to-end POS billing, real-time inventory management, and customer ledger tracking designed specifically for ground-level merchant realities.',
+        timeline_c4_year: '1996 — Roots & Inspiration',
+        timeline_c4_title: 'Roots & Heritage — Nabinagar, Brahmanbaria',
+        timeline_c4_desc: 'Born September 1996 in Nabinagar, Brahmanbaria. Grounded in integrity, relentless discipline, and precision to merge enterprise finance with software engineering.',
+
+        gallery_heading: 'Leadership & Executive <span class="gold-text-gradient">Moments</span>',
+        gallery_sub: 'Selected captures across Dubai executive operations, founder workspaces, and corporate engagements.',
+
+        quote_text: '“Great technology never creates barriers in work; rather, it removes everyday friction and empowers people with clarity.”',
+        quote_author: '— RIFAT UDDIN',
+
+        contact_heading: 'Get in Touch & Explore Opportunities',
+        contact_sub: 'Feel free to reach out for business consultations, automation initiatives, or technical partnerships.'
+      }
+    };
+
+    function setLanguage(lang) {
+      currentAppLang = lang;
+      document.documentElement.lang = lang;
+      try {
+        localStorage.setItem('portfolio_pref_lang', lang);
+      } catch (e) {}
+
+      // Update toggle buttons active class
+      document.querySelectorAll('.lang-pill-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.langVal === lang);
+      });
+
+      // Update i18n text nodes
+      const dict = i18nDict[lang] || i18nDict['bn'];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) {
+          el.innerHTML = dict[key];
+        }
+      });
+
+      // Update dynamic ERP tab
+      renderErpTab(currentActiveTab, lang);
+    }
+
+    (function initLanguageSwitcher() {
+      const toggleBtn = document.getElementById('langToggleBtn');
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', (e) => {
+          const pill = e.target.closest('.lang-pill-item');
+          if (pill && pill.dataset.langVal && pill.dataset.langVal !== currentAppLang) {
+            setLanguage(pill.dataset.langVal);
+            return;
+          }
+          const nextLang = currentAppLang === 'bn' ? 'en' : 'bn';
+          setLanguage(nextLang);
+        });
+      }
+
+      // Check stored preference or default to bn
+      let savedLang = 'bn';
+      try {
+        savedLang = localStorage.getItem('portfolio_pref_lang') || 'bn';
+      } catch (e) {}
+      if (savedLang === 'en') {
+        setLanguage('en');
+      }
     })();
   </script>
 </body>
