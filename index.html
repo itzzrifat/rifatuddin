@@ -2164,6 +2164,38 @@
       }
     }
 
+  
+    /* Post Card Media Thumbnail */
+    .cms-post-media-box {
+      width: calc(100% + 56px);
+      margin: -28px -28px 16px -28px;
+      height: 190px;
+      overflow: hidden;
+      background: #090c14;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+    .cms-post-media-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      display: block;
+    }
+    .cms-post-card:hover .cms-post-media-img {
+      transform: scale(1.06);
+    }
+    .cms-modal-banner-img {
+      width: 100%;
+      max-height: 340px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(230, 202, 133, 0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      display: block;
+    }
+
   </style>
 </head>
 <body>
@@ -2858,6 +2890,7 @@
     <div class="cms-article-modal-backdrop" id="cmsArticleModal" aria-hidden="true">
       <div class="cms-article-modal-content">
         <button class="cms-modal-close-btn" id="cmsModalCloseBtn" aria-label="Close modal">✕</button>
+        <img id="cmsModalImage" src="" alt="Article Banner" class="cms-modal-banner-img" style="display: none;">
         <div class="cms-card-meta-row" style="margin-bottom: 12px;">
           <span class="cms-category-pill font-mono" id="cmsModalCategory">Category</span>
           <span class="cms-post-badge font-mono" id="cmsModalBadge">Featured</span>
@@ -3488,6 +3521,17 @@
       const readTimeEl = document.getElementById('cmsModalReadTime');
       const titleEl = document.getElementById('cmsModalTitle');
       const bodyEl = document.getElementById('cmsModalBody');
+      const imgEl = document.getElementById('cmsModalImage');
+
+      if (imgEl) {
+        if (post.image) {
+          imgEl.src = post.image;
+          imgEl.style.display = 'block';
+        } else {
+          imgEl.src = '';
+          imgEl.style.display = 'none';
+        }
+      }
 
       if (catEl) catEl.textContent = post.category || 'Article';
       if (badgeEl) badgeEl.textContent = post.badge || 'Executive Note';
@@ -3581,9 +3625,14 @@
       if (postsGrid) {
         const posts = cmsStore.getPosts();
         postsGrid.innerHTML = posts.map(post => `
-          <div class="cms-post-card">
+          <div class="cms-post-card" style="overflow: hidden;">
             <div>
-              <div class="cms-card-meta-row">
+              ${post.image ? `
+                <div class="cms-post-media-box">
+                  <img src="${escapeHtml(post.image)}" alt="${escapeHtml(isEn ? (post.title_en || post.title_bn) : (post.title_bn || post.title_en))}" class="cms-post-media-img" loading="lazy">
+                </div>
+              ` : ''}
+              <div class="cms-card-meta-row" style="${post.image ? 'margin-top: 4px;' : ''}">
                 <span class="cms-category-pill font-mono">${escapeHtml(post.category || 'Article')}</span>
                 <span class="cms-post-badge font-mono">${escapeHtml(post.badge || 'Published')}</span>
               </div>
